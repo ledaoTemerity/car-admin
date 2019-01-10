@@ -20,8 +20,9 @@ export default {
   },
   methods: {
     handleSetSize(size) {
-      this.$ELEMENT.size = size
-      this.$store.dispatch('setSize', size)
+      this.$ELEMENT.size = "mini"
+      console.log(this.$ELEMENT)
+      // this.$store.dispatch('setSize', size)
       this.refreshView()
       this.$message({
         message: 'Switch Size Success',

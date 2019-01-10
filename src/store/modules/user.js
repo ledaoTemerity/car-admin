@@ -62,7 +62,14 @@ const user = {
     // 获取用户信息
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getUserInfo(state.token).then(response => {
+        let response = {};
+        response.data ={
+          avatar:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+          introduction:"我是超级管理员",
+          name:"Super Admin",
+          roles:["admin"],
+        }
+        // getUserInfo(state.token).then(response => {
           if (!response.data) { // 由于mockjs 不支持自定义状态码只能这样hack
             reject('error')
           }
@@ -78,9 +85,9 @@ const user = {
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)
           resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+        // }).catch(error => {
+        //   reject(error)
+        // })
       })
     },
 

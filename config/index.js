@@ -9,7 +9,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    // proxyTable:{
+    // '/apis': {    //将www.exaple.com印射为/apis
+    //     // target: 'http://192.168.20.33:8081/ledao',  // 接口域名
+    //     changeOrigin: true,  //是否跨域
+    //     pathRewrite: {
+    //         '^/api': ''   //需要rewrite的,
+    //     } 
+    //   }             
+    // },
 
     // Various Dev Server settings
 

@@ -48,6 +48,18 @@ export const constantRouterMap = [
     component: () => import('@/views/errorPage/401'),
     hidden: true
   },
+  // {
+  //   path: '/userData',
+  //   component: Layout,
+  //   hidden: true,
+  //   children: [
+  //     {
+  //       path: 'userData',
+  //       component: () => import('@/views/dashboard/userData'),
+  //       meta: { title: '我的任务', icon: 'dashboard', noCache: true }
+  //     }     
+  //   ]   
+  // },
   {
     path: '',
     component: Layout,
@@ -63,7 +75,14 @@ export const constantRouterMap = [
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
         meta: { title: '我的任务', icon: 'dashboard', noCache: true }
-      }
+      },
+      {
+        hidden: true,
+        path: 'userData',
+        name: 'userData',
+        component: () => import('@/views/dashboard/userData'),
+        meta: { title: '任务处理', noCache: true }
+      }              
     ]
   },
   {

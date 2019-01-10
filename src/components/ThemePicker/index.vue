@@ -32,8 +32,10 @@ export default {
           if (!styleTag) {
             styleTag = document.createElement('style')
             styleTag.setAttribute('id', id)
+            console.log(id)
             document.head.appendChild(styleTag)
           }
+          // console.log('--------',styleTag.innerText)
           styleTag.innerText = newStyle
         }
       }
@@ -81,6 +83,7 @@ export default {
           callback()
         }
       }
+      console.log("hhhhhhhhh",url)
       xhr.open('GET', url)
       xhr.send()
     },

@@ -1,10 +1,15 @@
 #app {
   // 主体区域
+  .el-submenu__title:hover{
+    color: #00AFAA !important;
+    background-color: #EAF7F7 !important;   
+  }
   .main-container {
     min-height: 100%;
     transition: margin-left .28s;
     margin-left: 180px;
     position: relative;
+    padding-top: 50px;
   }
   // 侧边栏
   .sidebar-container {
@@ -13,11 +18,12 @@
     height: 100%;
     position: fixed;
     font-size: 0px;
-    top: 0;
+    top: 50px;
     bottom: 0;
     left: 0;
     z-index: 1001;
     overflow: hidden;
+    border-right: 1px solid #d8dce5;
     //reset element-ui css
     .horizontal-collapse-transition {
       transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
@@ -48,7 +54,8 @@
       width: 100% !important;
     }
     .is-active > .el-submenu__title{
-        color: #f4f4f5!important;
+        color: #00AFAA !important;
+        background-color: #EAF7F7 !important;
     }
   }
   .hideSidebar {

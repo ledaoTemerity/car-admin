@@ -1,10 +1,13 @@
 <template>
   <div class="navbar">
-    <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
+    <div class="logo">
+      <img src="../../../assets/logo.png" alt="" srcset="">
+    </div>
 
-    <breadcrumb class="breadcrumb-container"/>
+    <!-- <breadcrumb class="breadcrumb-container"/> -->
 
     <div class="right-menu">
+      <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
       <template v-if="device!=='mobile'">
         <error-log class="errLog-container right-menu-item"/>
 
@@ -12,15 +15,15 @@
           <screenfull class="screenfull right-menu-item"/>
         </el-tooltip>
 
-        <el-tooltip :content="$t('navbar.size')" effect="dark" placement="bottom">
+        <!-- <el-tooltip :content="$t('navbar.size')" effect="dark" placement="bottom">
           <size-select class="international right-menu-item"/>
-        </el-tooltip>
+        </el-tooltip> -->
 
         <lang-select class="international right-menu-item"/>
-
+<!-- 
         <el-tooltip :content="$t('navbar.theme')" effect="dark" placement="bottom">
           <theme-picker class="theme-switch right-menu-item"/>
-        </el-tooltip>
+        </el-tooltip> -->
       </template>
 
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
@@ -89,6 +92,20 @@ export default {
   height: 50px;
   line-height: 50px;
   border-radius: 0px !important;
+  position: fixed;
+  width: 100%;
+  z-index: 1002;
+  background:rgba(255,255,255,1);
+  box-shadow:0px 2px 6px 0px rgba(19,78,110,0.2);  
+  .logo {
+    float: left;
+    padding-left: 20px;
+    img {
+      vertical-align: middle;
+      width:112px;
+      height:32px;   
+    } 
+  } 
   .hamburger-container {
     line-height: 58px;
     height: 50px;
