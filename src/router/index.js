@@ -86,9 +86,9 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '/permission',
+    path: '/carDealerManage',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/carDealerManage/index',
     alwaysShow: true, // will always show the root menu
     meta: {
       title: '车商管理',
@@ -96,8 +96,8 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
+        path: 'carDealer',
+        component: () => import('@/views/carDealerManage/carDealer'),
         name: 'PagePermission',
         meta: {
           title: '车商管理',
@@ -105,14 +105,39 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: 'carType',
+        component: () => import('@/views/carDealerManage/carType'),
+        name: 'carType',
         meta: {
           title: '车型管理'
           // if do not set roles, means: this page does not require permission
         }
+      },
+      {
+        path: 'vehicleAnchored',
+        component: () => import('@/views/carDealerManage/vehicleAnchored'),
+        name: 'vehicleAnchored',
+        meta: {
+          title: '车辆挂靠管理'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        hidden: true,
+        path: 'carDealerdetail',
+        name: 'CarDealerdetail',
+        component: () => import('@/views/carDealerManage/detail'),
+        meta: { title: '车商详情', noCache: true }
       }
+      // {
+      //   path: 'brand',
+      //   component: () => import('@/views/carDealerManage/brand'),
+      //   name: 'brand',
+      //   meta: {
+      //     title: '品牌管理'
+      //     // if do not set roles, means: this page does not require permission
+      //   }
+      // }
     ]
   },
   {
