@@ -13,6 +13,12 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+
+import Viewer from 'v-viewer'
+import 'viewerjs/dist/viewer.css'
+
+Vue.use(Viewer);
+
 import i18n from './lang' // Internationalization
 import './icons' // icon
 import './errorLog' // error log

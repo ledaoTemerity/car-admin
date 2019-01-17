@@ -4,12 +4,14 @@
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
+          <!-- {{resolvePath(onlyOneChild.path)}} -->
           <item v-if="onlyOneChild.meta" :icon="onlyOneChild.meta.icon||item.meta.icon" :title="generateTitle(onlyOneChild.meta.title)" />
         </el-menu-item>
       </app-link>
     </template>
 
     <el-submenu v-else ref="submenu" :index="resolvePath(item.path)">
+      <!-- {{resolvePath(item.path)}} -->
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta.icon" :title="generateTitle(item.meta.title)" />
       </template>
@@ -25,6 +27,7 @@
 
         <app-link v-else :to="resolvePath(child.path)" :key="child.name">
           <el-menu-item :index="resolvePath(child.path)">
+            <!-- {{resolvePath(child.path)}} -->
             <item v-if="child.meta" :icon="child.meta.icon" :title="generateTitle(child.meta.title)" />
           </el-menu-item>
         </app-link>
@@ -95,7 +98,19 @@ export default {
       if (this.isExternalLink(routePath)) {
         return routePath
       }
-      return path.resolve(this.basePath, routePath)
+      // console.log("path",)
+      let _path = ''
+      if (path.resolve(this.basePath, routePath) === '/dashboard') {
+        _path = path.resolve(this.basePath, routePath) + '?page=woderenwu'
+      } else if(path.resolve(this.basePath, routePath) === '/preloan/preSurch') {
+         _path = path.resolve(this.basePath, routePath) + '?page=chedaichaxun'
+      }else if(path.resolve(this.basePath, routePath) === '//preloan/preSurch1'){
+         _path = path.resolve(this.basePath, routePath) + '?page=daikuanguanli'
+      }else{
+        _path = path.resolve(this.basePath, routePath)
+      }
+      // console.log("basepath", path.resolve(this.basePath, routePath))
+      return _path
     },
     isExternalLink(routePath) {
       return isExternal(routePath)

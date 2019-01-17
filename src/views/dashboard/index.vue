@@ -2,11 +2,11 @@
   <div class="dashboard-container">
      <div class="event-tab">
         <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
-          <el-radio-button label="top">代办事件</el-radio-button>
-          <el-radio-button label="right">已办事件</el-radio-button>
+          <el-radio-button label="0" >代办事件</el-radio-button>
+          <el-radio-button label="1">已办事件</el-radio-button>
         </el-radio-group>
         <div>       
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" :rules="rules" ref="ruleForm" >
+          <el-form :inline="true" :model="formInline" class="demo-form-inline"  ref="ruleForm" >
             <el-row>
               <el-col :span="8">
                 <el-form-item label="客户名称" prop="customerName">
@@ -26,7 +26,7 @@
             </el-row> 
             <el-row>
               <el-col :span="8">
-                <el-form-item label="流程名称">
+                <el-form-item label="流程名称" prop="auditType">
                   <el-select v-model="formInline.auditType">
                     <!-- <el-option label="请选择" value="2"></el-option> -->
                     <el-option label="征信流程" value="0"></el-option>
@@ -35,7 +35,7 @@
                 </el-form-item>             
               </el-col>
               <el-col :span="8">
-                <el-form-item label="流程节点">
+                <el-form-item label="流程节点" prop="businessNodeCode">
                   <el-select v-model="formInline.businessNodeCode" placeholder="审批状态">
                     <el-option label="请选择" value="请选择"></el-option>
                     <el-option v-for="item in processList" :key="item.businessNodeCode" :label="item.businessNodeName" :value="item.businessNodeCode"></el-option>
@@ -57,6 +57,7 @@
         <div>
           <el-table
             :data="tableData"
+            v-loading="loading"
             border
             style="width: 100%">
             <el-table-column
@@ -114,7 +115,6 @@
           <div class="dashboard-pagination">
             <el-pagination
                background
-              @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page.sync="currentPage"
               :page-size="10"
@@ -129,19 +129,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 import {getMissionDBList,getBusinessNodeCode} from '@/api/myMission'
-// import editorDashboard from './editor'
 
 export default {
   name: 'Dashboard',
-  // components: { adminDashboard, editorDashboard },
   data() {
     return {
       currentPage: 1,      
-      tabPosition: 'top',
-      currentRole: 'adminDashboard',
+      tabPosition: '0',
       maxPage: 0,
+      loading: false,
       formInline: {
          customerName: '',
          idNumber: '',
@@ -161,37 +159,44 @@ export default {
       }                  
     }
   },
+  watch:{
+    tabPosition:function (newValue,oldValue){
+      this.getList({
+        "page": 1,
+        "auditType": 0,
+        "auditStatus": this.tabPosition     
+      }); 
+      this.resetForm('ruleForm')     
+    }
+  },
   computed: {
-    ...mapGetters([
-      'roles'
-    ])
+    // ...mapGetters([
+    //   'roles'
+    // ])
   },
   created() {
+    console.log("pppppppp",this.$route.query.page)
     this.getList({
       "page": 1,
       "auditType": 0,
-      "auditStatus": 0      
+      "auditStatus": this.tabPosition     
     });
     getBusinessNodeCode().then(response => {
       if (response.data.errCode === '200') {
           this.processList = response.data.body.processList;
       }
     }).catch(error => {
-
+      this.$message.error(error);
     })
   },
   methods:{
     onSubmit() {
       this.getList({
       "page": 1,
-      "auditStatus": 0 ,
+      "auditStatus": this.tabPosition ,
       ...this.formInline     
     });
     this.currentPage = 1;
-    console.log("dddddddd",this.currentPage)
-    },
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.getList({
@@ -220,20 +225,22 @@ export default {
       if (data.businessNodeCode && data.businessNodeCode !== "请选择") {
         prams.businessNodeCodeId = data.businessNodeCode;
       }
-      console.log(prams)                       
-      // let prams = {...data};
+      this.loading = true;
       getMissionDBList(prams).then(response => {
+        this.loading = false;
         if (response.data.errCode === '200') {
           console.log(response.data.body.list)
           this.tableData = response.data.body.list.dataList;
           this.maxPage = response.data.body.list.pagesize*10;
         }
       }).catch(error => {
+       this.$message.error(error);        
       })
     },
-    goPage(){
-      this.$router.push('userData')
-    }      
+    goPage(prams){
+      console.log(prams)
+      this.$router.push({ path:'userData', query: { userData: JSON.stringify(prams) ,auditStatus: this.tabPosition}})
+    }     
   }
 }
 </script>

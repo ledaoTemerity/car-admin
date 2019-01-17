@@ -48,11 +48,17 @@ const user = {
     LoginByUsername({ commit }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        loginByUsername(username, userInfo.password).then(response => {
-          const data = response.data
-          commit('SET_TOKEN', data.token)
-          setToken(response.data.token)
-          resolve()
+        loginByUsername("13675841069", "123456").then(response => {
+          if (response.data.errCode === "200") {
+            console.log("~~~~~~~~~~~",response.data.body.token)
+            const data = response.data.body
+            console.log("wwwwwwwwwwwwwwwwwwwww",data.token)
+            commit('SET_TOKEN', data.token)
+            setToken(data.token)
+            resolve()            
+          }else {
+            reject("登录失败")          
+          }
         }).catch(error => {
           reject(error)
         })
@@ -108,14 +114,14 @@ const user = {
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
+        // logout(state.token).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           removeToken()
           resolve()
-        }).catch(error => {
-          reject(error)
-        })
+        // }).catch(error => {
+        //   reject(error)
+        // })
       })
     },
 

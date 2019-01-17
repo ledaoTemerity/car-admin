@@ -74,15 +74,16 @@ export const constantRouterMap = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: '我的任务', icon: 'dashboard', noCache: true }
+        meta: { title: '我的任务', icon: 'dashboard', noCache: true },
+        children: []
       },
-      {
+       {
         hidden: true,
         path: 'userData',
         name: 'userData',
         component: () => import('@/views/dashboard/userData'),
         meta: { title: '任务处理', noCache: true }
-      }              
+      }             
     ]
   },
   {
@@ -127,12 +128,29 @@ export const constantRouterMap = [
     children: [
       {
         path: 'preSurch',
-        component: () => import('@/views/preloan/preSurch'),
+        component: () => import('@/views/dashboard/index'),
         name: 'PreSurch',
         meta: {
           title: '贷款查询'
         }
-      }
+      },
+      {
+        path: 'preSurch1',
+        component: () => import('@/views/dashboard/index'),
+        name: 'PreSurch1',
+        meta: {
+          title: '贷款审批'
+        }
+      },  
+      {
+        hidden: true,
+        path: 'preSurch2',
+        component: () => import('@/views/dashboard/userData'),
+        name: 'PreSurch2',
+        meta: {
+          title: '贷款处理'
+        }
+      }          
     ]
   },
   {

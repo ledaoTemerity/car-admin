@@ -18,7 +18,7 @@ export function fetchArticle(id) {
 
 export function fetchPv(pv) {
   return request({
-    url: '/article/pv',
+    url: '/articlccce/pv',
     method: 'get',
     params: { pv }
   })
