@@ -429,6 +429,12 @@ export default {
             state
           )
             .then(res => {
+              if (res.data.errCode == "403") {
+                this.$alert(`${res.data.errMsg}`, "错误提示", {
+                  confirmButtonText: "确定"
+                });
+                return;
+              }
               this.addFormVisible = false
               this.$refs.addForm.resetFields()
               licenseList(this.currentPage, this.pageSize)
