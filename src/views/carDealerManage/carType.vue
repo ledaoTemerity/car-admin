@@ -144,7 +144,7 @@ import {
   add,
   del,
   edit
-} from '@/api/carType'
+} from "@/api/carType";
 
 export default {
   data() {
@@ -152,63 +152,63 @@ export default {
       yearData: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
       brandData: [],
       seriesData: [],
-      addCarBrandId: '',
-      addseriesId: '',
+      addCarBrandId: "",
+      addseriesId: "",
       currentpage: 1,
       pagesize: 15,
       totalItem: 1,
-      brandName: '',
-      seriesName: '',
+      brandName: "",
+      seriesName: "",
       tableData: [],
       dialogFormVisible: false,
       editFormVisible: false,
       form: {},
       topForm: {
-        findBrand: '',
-        findType: ''
+        findBrand: "",
+        findType: ""
       },
       addForm: {
-        brandName: '',
-        seriesName: '',
-        style: '',
-        yearModel: '',
-        guidedPrice: ''
+        brandName: "",
+        seriesName: "",
+        style: "",
+        yearModel: "",
+        guidedPrice: ""
       },
       rules: {
-        brandName: [{ required: true, message: '请选择品牌', trigger: 'blur' }],
+        brandName: [{ required: true, message: "请选择品牌", trigger: "blur" }],
         seriesName: [
-          { required: true, message: '请选择车系', trigger: 'blur' }
+          { required: true, message: "请选择车系", trigger: "blur" }
         ],
-        style: [{ required: true, message: '请输入车型', trigger: 'blur' }],
-        yearModel: [{ required: true, message: '请输入年款', trigger: 'blur' }],
+        style: [{ required: true, message: "请输入车型", trigger: "blur" }],
+        yearModel: [{ required: true, message: "请输入年款", trigger: "blur" }],
         guidedPrice: [
-          { required: true, message: '请输入指导价', trigger: 'blur' }
+          { required: true, message: "请输入指导价", trigger: "blur" }
         ]
       },
       editrules: {
-        brandName: [{ required: true, message: '请选择品牌', trigger: 'blur' }],
+        brandName: [{ required: true, message: "请选择品牌", trigger: "blur" }],
         seriesName: [
-          { required: true, message: '请选择车系', trigger: 'blur' }
+          { required: true, message: "请选择车系", trigger: "blur" }
         ],
-        style: [{ required: true, message: '请输入车型', trigger: 'blur' }],
-        yearModel: [{ required: true, message: '请输入年款', trigger: 'blur' }],
+        style: [{ required: true, message: "请输入车型", trigger: "blur" }],
+        yearModel: [{ required: true, message: "请输入年款", trigger: "blur" }],
         guidedPrice: [
-          { required: true, message: '请输入指导价', trigger: 'blur' }
+          { required: true, message: "请输入指导价", trigger: "blur" }
         ]
       },
       editForm: {
-        brandName: '',
-        seriesName: '',
-        style: '',
-        yearModel: '',
-        guidedPrice: ''
+        brandName: "",
+        seriesName: "",
+        style: "",
+        yearModel: "",
+        guidedPrice: ""
       },
-      editId: ''
-    }
+      editId: ""
+    };
   },
   watch: {
-    'addForm.brandName': function(newValue, oldValue) {
-      this.addForm.seriesName = null
+    "addForm.brandName": function(newValue, oldValue) {
+      this.addForm.seriesName = null;
     }
     // "editForm.brandName": function(newValue, oldValue) {
     //   this.editForm.seriesName = null;
@@ -217,35 +217,35 @@ export default {
   created() {
     carTypeList(this.currentpage, this.pagesize)
       .then(res => {
-        this.tableData = res.data.body.dataList
-        this.currentpage = res.data.body.currentpage
-        this.totalItem = res.data.body.totalItem
+        this.tableData = res.data.body.dataList;
+        this.currentpage = res.data.body.currentpage;
+        this.totalItem = res.data.body.totalItem;
       })
-      .catch(error => {})
+      .catch(error => {});
     getBrand(1, 500)
       .then(res => {
-        this.brandData = res.data.body.dataList
+        this.brandData = res.data.body.dataList;
       })
-      .catch(error => {})
+      .catch(error => {});
     getSeries(1, 500)
       .then(res => {
-        this.seriesData = res.data.body.dataList
+        this.seriesData = res.data.body.dataList;
       })
-      .catch(error => {})
+      .catch(error => {});
   },
   methods: {
     stateFilter: function(val) {
-      return val.state == '1' ? '正常' : val.state == '0' ? '弃用' : '未知'
+      return val.state == "1" ? "正常" : val.state == "0" ? "弃用" : "未知";
     },
     // 清除查询条件
     clear() {
-      this.$refs.topForm.resetFields()
+      this.$refs.topForm.resetFields();
     },
     // 查询
     find() {
-      this.brandName = this.topForm.findBrand
-      this.seriesName = this.topForm.findType
-      this.currentpage = 1
+      this.brandName = this.topForm.findBrand;
+      this.seriesName = this.topForm.findType;
+      this.currentpage = 1;
       carTypeList(
         this.currentpage,
         this.pagesize,
@@ -253,32 +253,32 @@ export default {
         this.seriesName
       )
         .then(res => {
-          this.tableData = res.data.body.dataList
-          this.currentpage = res.data.body.currentpage
-          this.totalItem = res.data.body.totalItem
+          this.tableData = res.data.body.dataList;
+          this.currentpage = res.data.body.currentpage;
+          this.totalItem = res.data.body.totalItem;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     // 新增取消
     addCancel() {
-      this.$refs.addForm.resetFields()
-      this.dialogFormVisible = false
+      this.$refs.addForm.resetFields();
+      this.dialogFormVisible = false;
     },
     // 编辑取消
     editCancel() {
-      this.editFormVisible = false
+      this.editFormVisible = false;
     },
     // 新增确定
     addSend() {
       this.$refs.addForm.validate(valid => {
         if (valid) {
-          const brandId = this.addCarBrandId
-          const seriesId = this.addseriesId
-          const style = this.addForm.style
-          const brandName = this.addForm.brandName
-          const seriesName = this.addForm.seriesName
-          const guidedPrice = this.addForm.guidedPrice
-          const yearModel = this.addForm.yearModel
+          const brandId = this.addCarBrandId;
+          const seriesId = this.addseriesId;
+          const style = this.addForm.style;
+          const brandName = this.addForm.brandName;
+          const seriesName = this.addForm.seriesName;
+          const guidedPrice = this.addForm.guidedPrice;
+          const yearModel = this.addForm.yearModel;
           add(
             brandId,
             seriesId,
@@ -289,8 +289,8 @@ export default {
             yearModel
           )
             .then(res => {
-              this.dialogFormVisible = false
-              this.$refs.addForm.resetFields()
+              this.dialogFormVisible = false;
+              this.$refs.addForm.resetFields();
               carTypeList(
                 this.currentpage,
                 this.pagesize,
@@ -298,68 +298,68 @@ export default {
                 this.seriesName
               )
                 .then(res => {
-                  this.tableData = res.data.body.dataList
-                  this.currentpage = res.data.body.currentpage
-                  this.totalItem = res.data.body.totalItem
+                  this.tableData = res.data.body.dataList;
+                  this.currentpage = res.data.body.currentpage;
+                  this.totalItem = res.data.body.totalItem;
                 })
-                .catch(error => {})
+                .catch(error => {});
             })
-            .catch(error => {})
+            .catch(error => {});
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     },
     // 编辑按钮
     handleEdit(row) {
-      this.editFormVisible = true
-      this.editId = row.id
-      this.editForm.brandName = row.brandName
-      this.editForm.seriesName = row.seriesName
-      this.editForm.style = row.style
-      this.editForm.yearModel = row.yearModel
-      this.editForm.guidedPrice = row.guidedPrice
-      let obj = {}
-      let brandId = ''
+      this.editFormVisible = true;
+      this.editId = row.id;
+      this.editForm.brandName = row.brandName;
+      this.editForm.seriesName = row.seriesName;
+      this.editForm.style = row.style;
+      this.editForm.yearModel = row.yearModel;
+      this.editForm.guidedPrice = row.guidedPrice;
+      let obj = {};
+      let brandId = "";
       obj = this.brandData.find(item => {
-        return item.carBrand === this.editForm.brandName // 筛选出匹配数据
-      })
-      brandId = obj.carBrandId
+        return item.carBrand === this.editForm.brandName; // 筛选出匹配数据
+      });
+      brandId = obj.carBrandId;
       getSeries(1, 500, brandId)
         .then(res => {
-          this.seriesData = res.data.body.dataList
+          this.seriesData = res.data.body.dataList;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     // 编辑确定
     editSend() {
-      const style = this.editForm.style
-      const brandName = this.editForm.brandName
-      const seriesName = this.editForm.seriesName
-      const guidedPrice = this.editForm.guidedPrice
-      const yearModel = this.editForm.yearModel
-      let brandId = ''
-      let seriesId = ''
-      if (this.addCarBrandId == '') {
-        let obj = {}
+      const style = this.editForm.style;
+      const brandName = this.editForm.brandName;
+      const seriesName = this.editForm.seriesName;
+      const guidedPrice = this.editForm.guidedPrice;
+      const yearModel = this.editForm.yearModel;
+      let brandId = "";
+      let seriesId = "";
+      if (this.addCarBrandId == "") {
+        let obj = {};
         obj = this.brandData.find(item => {
-          return item.carBrand === brandName // 筛选出匹配数据
-        })
-        brandId = obj.carBrandId
+          return item.carBrand === brandName; // 筛选出匹配数据
+        });
+        brandId = obj.carBrandId;
       } else {
-        brandId = this.addCarBrandId
+        brandId = this.addCarBrandId;
       }
-      if (this.addseriesId == '') {
-        let obj = {}
+      if (this.addseriesId == "") {
+        let obj = {};
         obj = this.seriesData.find(item => {
-          return item.carTrain === seriesName // 筛选出匹配数据
-        })
+          return item.carTrain === seriesName; // 筛选出匹配数据
+        });
         if (obj) {
-          seriesId = obj.carTrainId
+          seriesId = obj.carTrainId;
         }
       } else {
-        seriesId = this.addseriesId
+        seriesId = this.addseriesId;
       }
       this.$refs.editForm.validate(valid => {
         if (valid) {
@@ -374,7 +374,7 @@ export default {
             yearModel
           )
             .then(res => {
-              this.editFormVisible = false
+              this.editFormVisible = false;
               carTypeList(
                 this.currentpage,
                 this.pagesize,
@@ -382,71 +382,84 @@ export default {
                 this.seriesName
               )
                 .then(res => {
-                  this.tableData = res.data.body.dataList
-                  this.currentpage = res.data.body.currentpage
-                  this.totalItem = res.data.body.totalItem
+                  this.tableData = res.data.body.dataList;
+                  this.currentpage = res.data.body.currentpage;
+                  this.totalItem = res.data.body.totalItem;
                 })
-                .catch(error => {})
+                .catch(error => {});
             })
-            .catch(error => {})
+            .catch(error => {});
         }
-      })
+      });
     },
     // 品牌下拉框onchange
     handleChange(value) {
-      let obj = {}
+      let obj = {};
       obj = this.brandData.find(item => {
-        return item.carBrand === value // 筛选出匹配数据
-      })
-      const carBrandId = obj.carBrandId
-      this.addCarBrandId = carBrandId
+        return item.carBrand === value; // 筛选出匹配数据
+      });
+      const carBrandId = obj.carBrandId;
+      this.addCarBrandId = carBrandId;
       // 根据品牌获取车系
       getSeries(1, 500, carBrandId)
         .then(res => {
-          this.seriesData = res.data.body.dataList
+          this.seriesData = res.data.body.dataList;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     // 车系下拉框onchange
     seriesChange(value) {
-      let obj = {}
+      let obj = {};
 
       obj = this.seriesData.find(item => {
-        return item.carTrain === value // 筛选出匹配数据
-      })
-      this.addseriesId = obj.carTrainId
+        return item.carTrain === value; // 筛选出匹配数据
+      });
+      this.addseriesId = obj.carTrainId;
     },
     // 分页
     handleCurrentChange(val) {
       carTypeList(val, this.pagesize, this.brandName, this.seriesName)
         .then(res => {
-          this.tableData = res.data.body.dataList
-          this.currentpage = res.data.body.currentpage
-          this.totalItem = res.data.body.totalItem
+          this.tableData = res.data.body.dataList;
+          this.currentpage = res.data.body.currentpage;
+          this.totalItem = res.data.body.totalItem;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     // 删除
     handeldelete(row) {
-      del(row.id)
-        .then(res => {
-          carTypeList(
-            this.currentpage,
-            this.pagesize,
-            this.brandName,
-            this.seriesName
-          )
+      this.$confirm("此操作将删除所选项, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          del(row.id)
             .then(res => {
-              this.tableData = res.data.body.dataList
-              this.currentpage = res.data.body.currentpage
-              this.totalItem = res.data.body.totalItem
+              carTypeList(
+                this.currentpage,
+                this.pagesize,
+                this.brandName,
+                this.seriesName
+              )
+                .then(res => {
+                  this.tableData = res.data.body.dataList;
+                  this.currentpage = res.data.body.currentpage;
+                  this.totalItem = res.data.body.totalItem;
+                })
+                .catch(error => {});
             })
-            .catch(error => {})
+            .catch(error => {});
         })
-        .catch(error => {})
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
   }
-}
+};
 </script>
 
 <style>

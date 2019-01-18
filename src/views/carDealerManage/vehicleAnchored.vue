@@ -151,7 +151,7 @@
           <el-select
             v-model="editForm.provinceId"
             placeholder="请选择省份"
-            @change="provinceChange(editForm.provinceId)"
+            @change="editprovinceChange(editForm.provinceId)"
           >
             <el-option
               v-for="item in provinceData"
@@ -165,7 +165,7 @@
           <el-select
             v-model="editForm.cityId"
             placeholder="若未选择则为原始值"
-            @change="cityChange(editForm.cityId)"
+            @change="editcityChange(editForm.cityId)"
           >
             <el-option
               v-for="item in cityData"
@@ -229,7 +229,7 @@ export default {
       editFormVisible: false,
       tableData: [],
       currentPage: 1,
-      pageSize: 2,
+      pageSize: 15,
       totalItem: 0,
       provinceData: [],
       cityData: [],
@@ -300,7 +300,9 @@ export default {
         districtId: '',
         address: '',
         state: 1
-      }
+      },
+      provinceIdFlag:1,
+      cityIdFlag:1,
     }
   },
   watch: {
@@ -312,14 +314,14 @@ export default {
     },
     'addForm.cityId': function(newValue, oldValue) {
       this.addForm.districtId = null
+    },
+    "provinceIdFlag": function(newValue, oldValue) {
+      this.editForm.cityId = null;
+      this.editForm.districtId = null;
+    },
+    "cityIdFlag": function(newValue, oldValue) {
+      this.editForm.districtId = null;
     }
-    // "editForm.provinceId": function(newValue, oldValue) {
-    //   this.editForm.cityId = null;
-    //   this.editForm.districtId = null;
-    // },
-    // "editForm.cityId": function(newValue, oldValue) {
-    //   this.editForm.districtId = null;
-    // }
   },
   created() {
     province()
@@ -354,6 +356,24 @@ export default {
     },
     // 城市onChange事件
     cityChange(cityId) {
+      district(cityId)
+        .then(res => {
+          this.districtData = res.data.body
+        })
+        .catch(error => {})
+    },
+    // 省份onChange事件
+    editprovinceChange(provinceId) {
+      this.provinceIdFlag++;
+      city(provinceId)
+        .then(res => {
+          this.cityData = res.data.body
+        })
+        .catch(error => {})
+    },
+    // 城市onChange事件
+    editcityChange(cityId) {
+      this.cityIdFlag++;
       district(cityId)
         .then(res => {
           this.districtData = res.data.body
