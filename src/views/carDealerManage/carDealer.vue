@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item label="所属分公司" prop="carDealerOrgId">
         <el-select v-model="topForm.carDealerOrgId" placeholder="请选择所属分公司">
-          <el-option v-for="item in orgData" :key="item.id" :label="item.orgName" :value="item.id"/>
+          <el-option v-for="item in orgData" :key="item.orgId" :label="item.fullName" :value="item.orgId"/>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -67,12 +67,7 @@
         </el-form-item>
         <el-form-item label="所属分公司" prop="carDealerOrgId">
           <el-select v-model="addForm.carDealerOrgId" placeholder="请选择所属分公司">
-            <el-option
-              v-for="item in orgData"
-              :key="item.id"
-              :label="item.orgName"
-              :value="item.id"
-            />
+            <el-option v-for="item in orgData" :key="item.orgId" :label="item.fullName" :value="item.orgId"/>
           </el-select>
         </el-form-item>
         <el-form-item label="签约状态" prop="status">
@@ -133,12 +128,7 @@
         </el-form-item>
         <el-form-item label="所属分公司" prop="carDealerOrgId">
           <el-select v-model="editForm.carDealerOrgId" placeholder="请选择所属分公司">
-            <el-option
-              v-for="item in orgData"
-              :key="item.id"
-              :label="item.orgName"
-              :value="item.id"
-            />
+            <el-option v-for="item in orgData" :key="item.orgId" :label="item.fullName" :value="item.orgId"/>
           </el-select>
         </el-form-item>
         <el-form-item label="签约状态" prop="status">
@@ -298,6 +288,7 @@ export default {
     // 获取列表数据
     carDealerList(this.currentpage, this.pagesize)
       .then(res => {
+        console.log(res.data.body.dataList[0])
         this.tableData = res.data.body.dataList;
         this.currentpage = res.data.body.currentpage;
         this.totalItem = res.data.body.totalItem;

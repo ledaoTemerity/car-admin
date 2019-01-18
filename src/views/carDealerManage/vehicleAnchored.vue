@@ -332,9 +332,9 @@ export default {
     licenseList(this.currentPage, this.pageSize)
       .then(res => {
         console.log(res)
-        this.tableData = res.data.body.dataList
-        this.currentPage = res.data.body.currentpage
-        this.totalItem = res.data.body.totalItem
+        this.tableData = res.data.body.dataList;
+        this.currentPage = res.data.body.currentpage;
+        this.totalItem = res.data.body.totalItem;
       })
       .catch(error => {})
   },

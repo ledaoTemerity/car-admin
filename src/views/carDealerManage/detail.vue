@@ -469,22 +469,25 @@ export default {
     addfinancialSend() {
       this.$refs.addfinancialForm.validate(valid => {
         if (valid) {
-          const dealerId = this.dealerId;
-          const styleId = this.addfinancialForm.styleId;
-          const purpose = this.addfinancialForm.purpose;
-          const guidePrice = Number(this.addfinancialForm.guidePrice);
-          const ticketPrice = Number(this.addfinancialForm.ticketPrice);
-          const purchasePrice = Number(this.addfinancialForm.purchasePrice);
-          const downPaymentRatio = Number(
+          let dealerId = this.dealerId;
+          let styleId = this.addfinancialForm.styleId;
+          let purpose = this.addfinancialForm.purpose;
+          let guidePrice = Number(this.addfinancialForm.guidePrice);
+          guidePrice = guidePrice.toFixed(2);
+          let ticketPrice = Number(this.addfinancialForm.ticketPrice);
+          ticketPrice = ticketPrice.toFixed(2);
+          let purchasePrice = Number(this.addfinancialForm.purchasePrice);
+          purchasePrice = purchasePrice.toFixed(2);
+          let downPaymentRatio = Number(
             this.addfinancialForm.downPaymentRatio
           );
-          const downPayment = Number(this.addfinancialForm.downPayment);
-          const balancePayment = Number(this.addfinancialForm.balancePayment);
-          const deposit = Number(this.addfinancialForm.deposit);
-          const numberOfStages = this.addfinancialForm.numberOfStages;
-          const monthlyPayment = Number(this.addfinancialForm.monthlyPayment);
-          const totalPayment = Number(this.addfinancialForm.totalPayment);
-          const totalLoan = Number(this.addfinancialForm.totalLoan);
+          let downPayment = Number(this.addfinancialForm.downPayment);
+          let balancePayment = Number(this.addfinancialForm.balancePayment);
+          let deposit = Number(this.addfinancialForm.deposit);
+          let numberOfStages = this.addfinancialForm.numberOfStages;
+          let monthlyPayment = Number(this.addfinancialForm.monthlyPayment);
+          let totalPayment = Number(this.addfinancialForm.totalPayment);
+          let totalLoan = Number(this.addfinancialForm.totalLoan);
           addfinancial(
             dealerId,
             styleId,
@@ -545,23 +548,26 @@ export default {
     editfinancialSend() {
       this.$refs.editfinancialForm.validate(valid => {
         if (valid) {
-          const id = this.id;
-          const dealerId = this.dealerId;
-          const styleId = this.editfinancialForm.styleId;
-          const purpose = this.editfinancialForm.purpose;
-          const guidePrice = Number(this.editfinancialForm.guidePrice);
-          const ticketPrice = Number(this.editfinancialForm.ticketPrice);
-          const purchasePrice = Number(this.editfinancialForm.purchasePrice);
-          const downPaymentRatio = Number(
+          let id = this.id;
+          let dealerId = this.dealerId;
+          let styleId = this.editfinancialForm.styleId;
+          let purpose = this.editfinancialForm.purpose;
+          let guidePrice = Number(this.editfinancialForm.guidePrice);
+          guidePrice = guidePrice.toFixed(2);
+          let ticketPrice = Number(this.editfinancialForm.ticketPrice);
+          ticketPrice = ticketPrice.toFixed(2);
+          let purchasePrice = Number(this.editfinancialForm.purchasePrice);
+          purchasePrice = purchasePrice.toFixed(2);
+          let downPaymentRatio = Number(
             this.editfinancialForm.downPaymentRatio
           );
-          const downPayment = Number(this.editfinancialForm.downPayment);
-          const balancePayment = Number(this.editfinancialForm.balancePayment);
-          const deposit = Number(this.editfinancialForm.deposit);
-          const numberOfStages = this.editfinancialForm.numberOfStages;
-          const monthlyPayment = Number(this.editfinancialForm.monthlyPayment);
-          const totalPayment = Number(this.editfinancialForm.totalPayment);
-          const totalLoan = Number(this.editfinancialForm.totalLoan);
+          let downPayment = Number(this.editfinancialForm.downPayment);
+          let balancePayment = Number(this.editfinancialForm.balancePayment);
+          let deposit = Number(this.editfinancialForm.deposit);
+          let numberOfStages = this.editfinancialForm.numberOfStages;
+          let monthlyPayment = Number(this.editfinancialForm.monthlyPayment);
+          let totalPayment = Number(this.editfinancialForm.totalPayment);
+          let totalLoan = Number(this.editfinancialForm.totalLoan);
           editfinancial(
             id,
             dealerId,

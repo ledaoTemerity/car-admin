@@ -272,13 +272,14 @@ export default {
     addSend() {
       this.$refs.addForm.validate(valid => {
         if (valid) {
-          const brandId = this.addCarBrandId;
-          const seriesId = this.addseriesId;
-          const style = this.addForm.style;
-          const brandName = this.addForm.brandName;
-          const seriesName = this.addForm.seriesName;
-          const guidedPrice = this.addForm.guidedPrice;
-          const yearModel = this.addForm.yearModel;
+          let brandId = this.addCarBrandId;
+          let seriesId = this.addseriesId;
+          let style = this.addForm.style;
+          let brandName = this.addForm.brandName;
+          let seriesName = this.addForm.seriesName;
+          let guidedPrice = Number(this.addForm.guidedPrice);
+          guidedPrice = guidedPrice.toFixed(2);
+          let yearModel = this.addForm.yearModel;
           add(
             brandId,
             seriesId,
@@ -334,11 +335,12 @@ export default {
     },
     // 编辑确定
     editSend() {
-      const style = this.editForm.style;
-      const brandName = this.editForm.brandName;
-      const seriesName = this.editForm.seriesName;
-      const guidedPrice = this.editForm.guidedPrice;
-      const yearModel = this.editForm.yearModel;
+      let style = this.editForm.style;
+      let brandName = this.editForm.brandName;
+      let seriesName = this.editForm.seriesName;
+      let guidedPrice = Number(this.editForm.guidedPrice);
+      guidedPrice = guidedPrice.toFixed(2);
+      let yearModel = this.editForm.yearModel;
       let brandId = "";
       let seriesId = "";
       if (this.addCarBrandId == "") {

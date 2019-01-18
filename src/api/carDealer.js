@@ -13,12 +13,22 @@ export function carDealerList(currentPage, pageSize, dealerName, status, carDeal
 }
 
 // 查询所属分公司列表
+// export function orglist() {
+//   const data = {
+
+//   }
+//   return request({
+//     url: '/ledao/strs/cardealer/org/list',
+//     method: 'post',
+//     data
+//   })
+// }
 export function orglist() {
   const data = {
 
   }
   return request({
-    url: '/ledao/strs/cardealer/org/list',
+    url: '/ledao/strs/org/getCompanyList',
     method: 'post',
     data
   })
