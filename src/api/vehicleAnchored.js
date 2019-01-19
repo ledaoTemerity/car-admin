@@ -61,9 +61,9 @@ export function licensestate(id, state) {
 }
 
 // 新增
-export function add(company, contacts, telephone, provinceId, cityId, districtId, address, state) {
+export function add(company, contacts, telephone, provinceId, cityId, districtId, provinceName, cityName, districtName, address, state) {
   const data = {
-    company, contacts, telephone, provinceId, cityId, districtId, address, state
+    company, contacts, telephone, provinceId, cityId, districtId, provinceName, cityName, districtName, address, state
   }
   return request({
     url: '/ledao/strs/license/org/add',
@@ -73,9 +73,9 @@ export function add(company, contacts, telephone, provinceId, cityId, districtId
 }
 
 // 编辑
-export function edit(id, company, contacts, telephone, provinceId, cityId, districtId, address, state) {
+export function edit(id, company, contacts, telephone, provinceId, cityId, districtId, provinceName, cityName, districtName, address, state) {
   const data = {
-    id, company, contacts, telephone, provinceId, cityId, districtId, address, state
+    id, company, contacts, telephone, provinceId, cityId, districtId, provinceName, cityName, districtName, address, state
   }
   return request({
     url: '/ledao/strs/license/org/edit',

@@ -248,9 +248,9 @@ export default {
           { required: true, message: "请选择省份", trigger: "blur" }
         ],
         cityId: [{ required: true, message: "请选择城市", trigger: "blur" }],
-        districtId: [
-          { required: true, message: "请选择区 / 县", trigger: "blur" }
-        ],
+        // districtId: [
+        //   { required: true, message: "请选择区 / 县", trigger: "blur" }
+        // ],
         address: [
           { required: true, message: "请输入详细地址", trigger: "blur" }
         ]
@@ -372,7 +372,7 @@ export default {
             return item.areaId === this.addForm.districtId; // 筛选出匹配数据
           });
           districtName = obj3.areaName;
-          console.log(districtName);
+         
           add(
             dealerName,
             carDealerOrgId,

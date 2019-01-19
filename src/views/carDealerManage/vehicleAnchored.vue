@@ -139,7 +139,7 @@
     <el-dialog :visible.sync="editFormVisible" title="编辑" width="33%">
       <el-form ref="editForm" :model="editForm" :rules="editrules" label-width="120px">
         <el-form-item label="挂靠单位名称" prop="company">
-          <el-input v-model="editForm.company" autocomplete="off"/>
+          <el-input v-model="editForm.company" disabled autocomplete="off"/>
         </el-form-item>
         <el-form-item label="联系人" prop="contacts">
           <el-input v-model="editForm.contacts" autocomplete="off"/>
@@ -220,7 +220,7 @@ import {
   licensestate,
   add,
   edit
-} from '@/api/vehicleAnchored'
+} from "@/api/vehicleAnchored";
 
 export default {
   data() {
@@ -234,190 +234,224 @@ export default {
       provinceData: [],
       cityData: [],
       districtData: [],
-      stateData: [{ id: 1, statedes: '启用' }, { id: 0, statedes: '停用' }],
+      stateData: [{ id: 1, statedes: "启用" }, { id: 0, statedes: "停用" }],
       topForm: {
-        company: '',
-        provinceId: '',
-        cityId: ''
+        company: "",
+        provinceId: "",
+        cityId: ""
       },
       addForm: {
-        company: '',
-        contacts: '',
-        telephone: '',
-        provinceId: '',
-        cityId: '',
-        districtId: '',
-        address: '',
+        company: "",
+        contacts: "",
+        telephone: "",
+        provinceId: "",
+        cityId: "",
+        districtId: "",
+        address: "",
         state: 1
       },
       rules: {
         company: [
-          { required: true, message: '请选输入靠单位名称', trigger: 'blur' }
-        ],
-        contacts: [
-          { required: true, message: '请输入联系人', trigger: 'blur' }
-        ],
-        telephone: [
-          { required: true, message: '请输入联系电话', trigger: 'blur' }
-        ],
-        provinceId: [
-          { required: true, message: '请选择省份', trigger: 'blur' }
-        ],
-        cityId: [{ required: true, message: '请选择城市', trigger: 'blur' }],
-        districtId: [
-          { required: true, message: '请选择区 / 县', trigger: 'blur' }
-        ],
-        address: [
-          { required: true, message: '请输入详细地址', trigger: 'blur' }
-        ],
-        state: [{ required: true, message: '请选择是否启用', trigger: 'blur' }]
+          { required: true, message: "请选输入靠单位名称", trigger: "blur" }
+        ]
+        // contacts: [
+        //   { required: true, message: '请输入联系人', trigger: 'blur' }
+        // ],
+        // telephone: [
+        //   { required: true, message: '请输入联系电话', trigger: 'blur' }
+        // ],
+        // provinceId: [
+        //   { required: true, message: '请选择省份', trigger: 'blur' }
+        // ],
+        // cityId: [{ required: true, message: '请选择城市', trigger: 'blur' }],
+        // districtId: [
+        //   { required: true, message: '请选择区 / 县', trigger: 'blur' }
+        // ],
+        // address: [
+        //   { required: true, message: '请输入详细地址', trigger: 'blur' }
+        // ],
+        // state: [{ required: true, message: '请选择是否启用', trigger: 'blur' }]
       },
       editrules: {
         company: [
-          { required: true, message: '请选输入靠单位名称', trigger: 'blur' }
-        ],
-        contacts: [
-          { required: true, message: '请输入联系人', trigger: 'blur' }
-        ],
-        telephone: [
-          { required: true, message: '请输入联系电话', trigger: 'blur' }
-        ],
-        provinceId: [
-          { required: true, message: '请选择省份', trigger: 'blur' }
-        ],
-        address: [
-          { required: true, message: '请输入详细地址', trigger: 'blur' }
-        ],
-        state: [{ required: true, message: '请选择是否启用', trigger: 'blur' }]
+          { required: true, message: "请选输入靠单位名称", trigger: "blur" }
+        ]
+        // contacts: [
+        //   { required: true, message: '请输入联系人', trigger: 'blur' }
+        // ],
+        // telephone: [
+        //   { required: true, message: '请输入联系电话', trigger: 'blur' }
+        // ],
+        // provinceId: [
+        //   { required: true, message: '请选择省份', trigger: 'blur' }
+        // ],
+        // cityId: [{ required: true, message: '请选择城市', trigger: 'blur' }],
+        // address: [
+        //   { required: true, message: '请输入详细地址', trigger: 'blur' }
+        // ],
+        // state: [{ required: true, message: '请选择是否启用', trigger: 'blur' }]
       },
       editId: 0,
       editForm: {
-        company: '',
-        contacts: '',
-        telephone: '',
-        provinceId: '',
-        cityId: '',
-        districtId: '',
-        address: '',
+        company: "",
+        contacts: "",
+        telephone: "",
+        provinceId: "",
+        cityId: "",
+        districtId: "",
+        address: "",
         state: 1
       },
-      provinceIdFlag:1,
-      cityIdFlag:1,
-    }
+      provinceIdFlag: 1,
+      cityIdFlag: 1
+    };
   },
   watch: {
-    'topForm.provinceId': function(newValue, oldValue) {
-      this.topForm.cityId = null
+    "topForm.provinceId": function(newValue, oldValue) {
+      this.topForm.cityId = null;
     },
-    'addForm.provinceId': function(newValue, oldValue) {
-      this.addForm.cityId = null
+    "addForm.provinceId": function(newValue, oldValue) {
+      this.addForm.cityId = null;
     },
-    'addForm.cityId': function(newValue, oldValue) {
-      this.addForm.districtId = null
+    "addForm.cityId": function(newValue, oldValue) {
+      this.addForm.districtId = null;
     },
-    "provinceIdFlag": function(newValue, oldValue) {
+    provinceIdFlag: function(newValue, oldValue) {
       this.editForm.cityId = null;
       this.editForm.districtId = null;
     },
-    "cityIdFlag": function(newValue, oldValue) {
+    cityIdFlag: function(newValue, oldValue) {
       this.editForm.districtId = null;
     }
   },
   created() {
     province()
       .then(res => {
-        this.provinceData = res.data.body
+        this.provinceData = res.data.body;
       })
-      .catch(error => {})
+      .catch(error => {});
     licenseList(this.currentPage, this.pageSize)
       .then(res => {
-        console.log(res)
+        console.log(res);
         this.tableData = res.data.body.dataList;
         this.currentPage = res.data.body.currentpage;
         this.totalItem = res.data.body.totalItem;
       })
-      .catch(error => {})
+      .catch(error => {});
   },
   methods: {
     stateFilter: function(val) {
-      return val.state == 1 ? '启用' : val.state == 0 ? '停用' : '未知'
+      return val.state == 1 ? "启用" : val.state == 0 ? "停用" : "未知";
     },
     // 清除查询条件
     clear() {
-      this.$refs.topForm.resetFields()
+      this.$refs.topForm.resetFields();
     },
     // 省份onChange事件
     provinceChange(provinceId) {
       city(provinceId)
         .then(res => {
-          this.cityData = res.data.body
+          this.cityData = res.data.body;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     // 城市onChange事件
     cityChange(cityId) {
       district(cityId)
         .then(res => {
-          this.districtData = res.data.body
+          this.districtData = res.data.body;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     // 省份onChange事件
     editprovinceChange(provinceId) {
       this.provinceIdFlag++;
       city(provinceId)
         .then(res => {
-          this.cityData = res.data.body
+          this.cityData = res.data.body;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     // 城市onChange事件
     editcityChange(cityId) {
       this.cityIdFlag++;
       district(cityId)
         .then(res => {
-          this.districtData = res.data.body
+          this.districtData = res.data.body;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     // 查询
     find() {
-      const company = this.topForm.company
-      const provinceId = this.topForm.provinceId
-      const cityId = this.topForm.cityId
+      const company = this.topForm.company;
+      const provinceId = this.topForm.provinceId;
+      const cityId = this.topForm.cityId;
       licenseList(this.currentPage, this.pageSize, company, provinceId, cityId)
         .then(res => {
-          console.log(res)
-          this.tableData = res.data.body.dataList
-          this.currentPage = res.data.body.currentpage
-          this.totalItem = res.data.body.totalItem
+          console.log(res);
+          this.tableData = res.data.body.dataList;
+          this.currentPage = res.data.body.currentpage;
+          this.totalItem = res.data.body.totalItem;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     add() {
-      this.addFormVisible = true
+      this.addFormVisible = true;
     },
     // 新增取消
     addCancel() {
-      this.$refs.addForm.resetFields()
-      this.addFormVisible = false
+      this.$refs.addForm.resetFields();
+      this.addFormVisible = false;
     },
     // 编辑取消
     editCancel() {
-      this.editFormVisible = false
+      this.editFormVisible = false;
     },
     // 新增确定
     addSend() {
       this.$refs.addForm.validate(valid => {
         if (valid) {
-          const company = this.addForm.company
-          const contacts = this.addForm.contacts
-          const telephone = this.addForm.telephone
-          const provinceId = this.addForm.provinceId
-          const cityId = this.addForm.cityId
-          const districtId = this.addForm.districtId
-          const address = this.addForm.address
-          const state = this.addForm.state
+          const company = this.addForm.company;
+          const contacts = this.addForm.contacts;
+          const telephone = this.addForm.telephone;
+          const provinceId = this.addForm.provinceId;
+          let provinceName = "";
+          if(provinceId !== null && provinceId !== ""){
+              let obj1 = {};
+          
+          obj1 = this.provinceData.find(item => {
+            return item.areaId === this.addForm.provinceId; // 筛选出匹配数据
+          });
+          provinceName = obj1.areaName;
+          }
+          
+
+          const cityId = this.addForm.cityId;
+          let cityName = "";
+          if(cityId !== null && cityId !== ""){
+              let obj2 = {};
+          
+          obj2 = this.cityData.find(item => {
+            return item.areaId === this.addForm.cityId; // 筛选出匹配数据
+          });
+          cityName = obj2.areaName;
+          }
+          
+
+          const districtId = this.addForm.districtId;
+          let districtName = "";
+          if(districtId !== null && districtId !== ""){
+            let obj3 = {};
+          
+          obj3 = this.districtData.find(item => {
+            return item.areaId === this.addForm.districtId; // 筛选出匹配数据
+          });
+          districtName = obj3.areaName;
+          }
+          
+
+          const address = this.addForm.address;
+          const state = this.addForm.state;
           add(
             company,
             contacts,
@@ -425,6 +459,9 @@ export default {
             provinceId,
             cityId,
             districtId,
+            provinceName,
+            cityName,
+            districtName,
             address,
             state
           )
@@ -435,59 +472,94 @@ export default {
                 });
                 return;
               }
-              this.addFormVisible = false
-              this.$refs.addForm.resetFields()
+              this.addFormVisible = false;
+              this.$refs.addForm.resetFields();
               licenseList(this.currentPage, this.pageSize)
                 .then(res => {
-                  console.log(res)
-                  this.tableData = res.data.body.dataList
-                  this.currentPage = res.data.body.currentpage
-                  this.totalItem = res.data.body.totalItem
+                  console.log(res);
+                  this.tableData = res.data.body.dataList;
+                  this.currentPage = res.data.body.currentpage;
+                  this.totalItem = res.data.body.totalItem;
                 })
-                .catch(error => {})
+                .catch(error => {});
             })
-            .catch(error => {})
+            .catch(error => {});
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     },
     // 编辑按钮
     handleEdit(row) {
-      this.editId = row.id
-      this.editFormVisible = true
-      this.editForm.company = row.company
-      this.editForm.contacts = row.contacts
-      this.editForm.telephone = row.telephone
-      this.editForm.provinceId = row.provinceId
-      this.editForm.cityId = row.cityId
-      this.editForm.districtId = row.districtId
-      this.editForm.address = row.address
-      this.editForm.state = row.state
-      city(row.provinceId)
+      this.editId = row.id;
+      this.editFormVisible = true;
+      this.editForm.company = row.company;
+      this.editForm.contacts = row.contacts;
+      this.editForm.telephone = row.telephone;
+      this.editForm.provinceId = row.provinceId;
+      this.editForm.cityId = row.cityId;
+      this.editForm.districtId = row.districtId;
+      this.editForm.address = row.address;
+      this.editForm.state = row.state;
+        city(row.provinceId)
         .then(res => {
-          this.cityData = res.data.body
+          this.cityData = res.data.body;
         })
-        .catch(error => {})
-      district(row.cityId)
+        .catch(error => {});
+      
+        district(row.cityId)
         .then(res => {
-          this.districtData = res.data.body
+          this.districtData = res.data.body;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     // 编辑确定
     editSend() {
       this.$refs.editForm.validate(valid => {
         if (valid) {
-          const company = this.editForm.company
-          const contacts = this.editForm.contacts
-          const telephone = this.editForm.telephone
-          const provinceId = this.editForm.provinceId
-          const cityId = this.editForm.cityId
-          const districtId = this.editForm.districtId
-          const address = this.editForm.address
-          const state = this.editForm.state
+          const company = this.editForm.company;
+          const contacts = this.editForm.contacts;
+          const telephone = this.editForm.telephone;
+          const provinceId = this.editForm.provinceId;
+          let provinceName = "";
+          let obj1 = {};
+          if(provinceId !== null && provinceId !== "" && provinceId !== undefined){
+              
+          
+          obj1 = this.provinceData.find(item => {
+            return item.areaId === this.editForm.provinceId; // 筛选出匹配数据
+          });
+          console.log(obj1);
+          provinceName = obj1.areaName;
+          }
+
+          const cityId = this.editForm.cityId;
+          let cityName = "";
+              let obj2 = {};
+          if(cityId !== null && cityId !== "" && cityId !== undefined){
+          
+          obj2 = this.cityData.find(item => {
+            return item.areaId === this.editForm.cityId; // 筛选出匹配数据
+          });
+          console.log(obj2);
+          cityName = obj2.areaName;
+          }
+          const districtId = this.editForm.districtId;
+          console.log(districtId)
+          let districtName = "";
+            let obj3 = {};
+          if(districtId !== null && districtId !== "" && districtId !== undefined){
+          
+          obj3 = this.districtData.find(item => {
+            return item.areaId === this.editForm.districtId; // 筛选出匹配数据
+          });
+          console.log(obj3);
+          districtName = obj3.areaName;
+          }
+
+          const address = this.editForm.address;
+          const state = this.editForm.state;
           edit(
             this.editId,
             company,
@@ -496,62 +568,65 @@ export default {
             provinceId,
             cityId,
             districtId,
+            provinceName,
+            cityName,
+            districtName,
             address,
             state
           )
             .then(res => {
-              this.editFormVisible = false
+              this.editFormVisible = false;
               licenseList(this.currentPage, this.pageSize)
                 .then(res => {
-                  console.log(res)
-                  this.tableData = res.data.body.dataList
-                  this.currentPage = res.data.body.currentpage
-                  this.totalItem = res.data.body.totalItem
+                  console.log(res);
+                  this.tableData = res.data.body.dataList;
+                  this.currentPage = res.data.body.currentpage;
+                  this.totalItem = res.data.body.totalItem;
                 })
-                .catch(error => {})
+                .catch(error => {});
             })
-            .catch(error => {})
+            .catch(error => {});
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     },
     // 分页
     handleCurrentChange(val) {
       licenseList(val, this.pageSize)
         .then(res => {
-          console.log(res)
-          this.tableData = res.data.body.dataList
-          this.currentPage = res.data.body.currentpage
-          this.totalItem = res.data.body.totalItem
+          console.log(res);
+          this.tableData = res.data.body.dataList;
+          this.currentPage = res.data.body.currentpage;
+          this.totalItem = res.data.body.totalItem;
         })
-        .catch(error => {})
+        .catch(error => {});
     },
     // 修改状态
     handelstate(row) {
-      console.log(JSON.stringify(row))
-      let state = 0
+      console.log(JSON.stringify(row));
+      let state = 0;
       if (row.state == 0) {
-        state = 1
+        state = 1;
       }
       if (row.state == 1) {
-        state = 0
+        state = 0;
       }
       licensestate(row.id, state)
         .then(res => {
           licenseList(this.currentPage, this.pageSize)
             .then(res => {
-              this.tableData = res.data.body.dataList
-              this.currentPage = res.data.body.currentpage
-              this.totalItem = res.data.body.totalPages
+              this.tableData = res.data.body.dataList;
+              this.currentPage = res.data.body.currentpage;
+              this.totalItem = res.data.body.totalPages;
             })
-            .catch(error => {})
+            .catch(error => {});
         })
-        .catch(error => {})
+        .catch(error => {});
     }
   }
-}
+};
 </script>
 
 <style>
