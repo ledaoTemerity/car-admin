@@ -3,7 +3,7 @@
     <!-- 顶部表单 -->
     <el-form ref="topForm" :inline="true" :model="topForm">
       <el-form-item label="挂靠单位名称" prop="company">
-        <el-input v-model="topForm.company" placeholder="请输入品牌"/>
+        <el-input v-model="topForm.company" placeholder="挂靠单位名称"/>
       </el-form-item>
       <el-form-item label="省份" prop="provinceId">
         <el-select
