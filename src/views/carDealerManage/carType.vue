@@ -149,7 +149,7 @@ import {
 export default {
   data() {
     return {
-      yearData: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019],
+      yearData: [2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010],
       brandData: [],
       seriesData: [],
       addCarBrandId: "",

@@ -70,7 +70,7 @@
         label-width="120px"
       >
         <el-form-item label="购车用途" prop="purpose">
-          <el-select v-model="addfinancialForm.purpose" placeholder="请选择品牌">
+          <el-select v-model="addfinancialForm.purpose" placeholder="请选择购车用途">
             <el-option
               v-for="item in purposeData"
               :key="item.id"
@@ -80,7 +80,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="车型" prop="styleId">
-          <el-select v-model="addfinancialForm.styleId" placeholder="请选择品牌">
+          <el-select v-model="addfinancialForm.styleId" placeholder="请选择车型">
             <el-option
               v-for="item in styleData"
               :key="item.id"
@@ -90,41 +90,41 @@
           </el-select>
         </el-form-item>
         <el-form-item label="指导价" prop="guidePrice">
-          <el-input v-model="addfinancialForm.guidePrice" autocomplete="off"/>
+          <el-input v-model="addfinancialForm.guidePrice" autocomplete="off" placeholder="请输入指导价"/>
         </el-form-item>
         <el-form-item label="开票价" prop="ticketPrice">
-          <el-input v-model="addfinancialForm.ticketPrice" autocomplete="off"/>
+          <el-input v-model="addfinancialForm.ticketPrice" autocomplete="off" placeholder="请输入开票价"/>
         </el-form-item>
         <el-form-item label="采购价" prop="purchasePrice">
-          <el-input v-model="addfinancialForm.purchasePrice" autocomplete="off"/>
+          <el-input v-model="addfinancialForm.purchasePrice" autocomplete="off" placeholder="请输入采购价"/>
         </el-form-item>
         <el-form-item label="首付比例" prop="downPaymentRatio">
-          <el-select v-model="addfinancialForm.downPaymentRatio" placeholder="请选择品牌">
+          <el-select v-model="addfinancialForm.downPaymentRatio" placeholder="请选择首付比例">
             <el-option v-for="item in PaymentRatioData" :key="item.val" :label="item.des" :value="item.val"/>
           </el-select>
         </el-form-item>
         <el-form-item label="首付金额" prop="downPayment">
-          <el-input v-model="addfinancialForm.downPayment" autocomplete="off"/>
+          <el-input v-model="addfinancialForm.downPayment" autocomplete="off" placeholder="请输入首付金额"/>
         </el-form-item>
         <el-form-item label="尾款" prop="balancePayment">
-          <el-input v-model="addfinancialForm.balancePayment" autocomplete="off"/>
+          <el-input v-model="addfinancialForm.balancePayment" autocomplete="off" placeholder="请输入尾款"/>
         </el-form-item>
         <el-form-item label="保证金" prop="deposit">
-          <el-input v-model="addfinancialForm.deposit" autocomplete="off"/>
+          <el-input v-model="addfinancialForm.deposit" autocomplete="off" placeholder="请输入保证金"/>
         </el-form-item>
         <el-form-item label="期数" prop="numberOfStages">
-          <el-select v-model="addfinancialForm.numberOfStages" placeholder="请选择品牌">
+          <el-select v-model="addfinancialForm.numberOfStages" placeholder="请选择期数">
             <el-option v-for="item in numberOfStagesData" :key="item" :label="item" :value="item"/>
           </el-select>
         </el-form-item>
         <el-form-item label="月供" prop="monthlyPayment">
-          <el-input v-model="addfinancialForm.monthlyPayment" autocomplete="off"/>
+          <el-input v-model="addfinancialForm.monthlyPayment" autocomplete="off" placeholder="请输入月供"/>
         </el-form-item>
         <el-form-item label="付款总额" prop="totalPayment">
-          <el-input v-model="addfinancialForm.totalPayment" autocomplete="off"/>
+          <el-input v-model="addfinancialForm.totalPayment" autocomplete="off" placeholder="请输入付款总额"/>
         </el-form-item>
         <el-form-item label="贷款总额" prop="totalLoan">
-          <el-input v-model="addfinancialForm.totalLoan" autocomplete="off"/>
+          <el-input v-model="addfinancialForm.totalLoan" autocomplete="off" placeholder="请输入贷款总额"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -142,7 +142,7 @@
         label-width="120px"
       >
         <el-form-item label="购车用途" prop="purpose">
-          <el-select v-model="editfinancialForm.purpose" placeholder="请选择品牌">
+          <el-select v-model="editfinancialForm.purpose" placeholder="请选择购车用途">
             <el-option
               v-for="item in purposeData"
               :key="item.id"
@@ -152,7 +152,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="车型" prop="styleId">
-          <el-select v-model="editfinancialForm.styleId" placeholder="请选择品牌">
+          <el-select v-model="editfinancialForm.styleId" placeholder="请选择车型">
             <el-option
               v-for="item in styleData"
               :key="item.id"
@@ -162,41 +162,41 @@
           </el-select>
         </el-form-item>
         <el-form-item label="指导价" prop="guidePrice">
-          <el-input v-model="editfinancialForm.guidePrice" autocomplete="off"/>
+          <el-input v-model="editfinancialForm.guidePrice" autocomplete="off" placeholder="请输入指导价"/>
         </el-form-item>
         <el-form-item label="开票价" prop="ticketPrice">
-          <el-input v-model="editfinancialForm.ticketPrice" autocomplete="off"/>
+          <el-input v-model="editfinancialForm.ticketPrice" autocomplete="off" placeholder="请输入开票价"/>
         </el-form-item>
         <el-form-item label="采购价" prop="purchasePrice">
-          <el-input v-model="editfinancialForm.purchasePrice" autocomplete="off"/>
+          <el-input v-model="editfinancialForm.purchasePrice" autocomplete="off" placeholder="请输入采购价"/>
         </el-form-item>
         <el-form-item label="首付比例" prop="downPaymentRatio">
-          <el-select v-model="editfinancialForm.downPaymentRatio" placeholder="请选择品牌">
+          <el-select v-model="editfinancialForm.downPaymentRatio" placeholder="请选择首付比例">
             <el-option v-for="item in PaymentRatioData" :key="item.val" :label="item.des" :value="item.val"/>
           </el-select>
         </el-form-item>
         <el-form-item label="首付金额" prop="downPayment">
-          <el-input v-model="editfinancialForm.downPayment" autocomplete="off"/>
+          <el-input v-model="editfinancialForm.downPayment" autocomplete="off" placeholder="请输入首付金额"/>
         </el-form-item>
         <el-form-item label="尾款" prop="balancePayment">
-          <el-input v-model="editfinancialForm.balancePayment" autocomplete="off"/>
+          <el-input v-model="editfinancialForm.balancePayment" autocomplete="off" placeholder="请输入尾款"/>
         </el-form-item>
         <el-form-item label="保证金" prop="deposit">
-          <el-input v-model="editfinancialForm.deposit" autocomplete="off"/>
+          <el-input v-model="editfinancialForm.deposit" autocomplete="off" placeholder="请输入保证金"/>
         </el-form-item>
         <el-form-item label="期数" prop="numberOfStages">
-          <el-select v-model="editfinancialForm.numberOfStages" placeholder="请选择品牌">
+          <el-select v-model="editfinancialForm.numberOfStages" placeholder="请选择期数">
             <el-option v-for="item in numberOfStagesData" :key="item" :label="item" :value="item"/>
           </el-select>
         </el-form-item>
         <el-form-item label="月供" prop="monthlyPayment">
-          <el-input v-model="editfinancialForm.monthlyPayment" autocomplete="off"/>
+          <el-input v-model="editfinancialForm.monthlyPayment" autocomplete="off" placeholder="请输入月供"/>
         </el-form-item>
         <el-form-item label="付款总额" prop="totalPayment">
-          <el-input v-model="editfinancialForm.totalPayment" autocomplete="off"/>
+          <el-input v-model="editfinancialForm.totalPayment" autocomplete="off" placeholder="请输入付款总额"/>
         </el-form-item>
         <el-form-item label="贷款总额" prop="totalLoan">
-          <el-input v-model="editfinancialForm.totalLoan" autocomplete="off"/>
+          <el-input v-model="editfinancialForm.totalLoan" autocomplete="off" placeholder="请输入贷款总额"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -526,6 +526,12 @@ export default {
           const licenseOrgId = this.addlicenseForm.licenseOrgId;
           addlicense(dealerId, licenseOrgId)
             .then(res => {
+              if (res.data.errCode == "403") {
+                this.$alert(`${res.data.errMsg}`, "错误提示", {
+                  confirmButtonText: "确定"
+                });
+                return;
+              }
               getDetail(this.dealerId)
                 .then(res => {
                   this.addlicenseVisible = false;
