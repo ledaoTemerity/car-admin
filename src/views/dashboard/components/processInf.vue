@@ -57,7 +57,7 @@
         <approval-record v-for="(item,index) in auditRecordList" :key="index" :userData="item"/>        
       </div>
     </div>
-    <div class="essential-other">
+    <div class="essential-other" v-if="userData.isPage !== 'chedaichaxun' && userData.auditStatus === '0'">
         <div class="verification">
             <p class="verification-p">信息核验</p>
             <div>
@@ -70,10 +70,10 @@
                 <el-radio label="4">加入黑名单</el-radio>              
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="活动形式">
+            <el-form-item label="内部意见">
                 <el-input type="textarea" v-model="form.insideOpinion"></el-input>
             </el-form-item>
-            <el-form-item label="活动形式">
+            <el-form-item label="驳回信息">
                 <el-input type="textarea" v-model="form.auditReason"></el-input>
             </el-form-item>            
             <el-form-item>
@@ -106,68 +106,113 @@ export default {
           insideOpinion: '',
           auditReason: ''
         },
+        dataList:{1:'通过', 2: '驳回',3:'拒绝', 4: '加入黑名单'},
         processList: [],
         auditRecordList: [],
+        auditRecord: [],
         rules: {
           auditNodeResult: [
-            { required: true, message: '请选择活动资源', trigger: 'change' }
+            { required: true, message: '请选择意见结论', trigger: 'change' }
           ]            
         }         
     }
   },
   created() {
-    console.log("0000000000",this.userData)
-    getProcessData(this.userData).then(response => {
-      if (response.data.errCode === "200") {
-        let data = response.data.body;
-         console.log('this.userData',response.data)
-         this.processList = data.processList;
-         this.auditRecordList = data.auditRecordList;
-      }
-    }).catch(error => {
-      console.log(error)
-    })
+    this.getListAll();
   },
   methods: {
     submitForm(form){
         let that = this;
-        this.$confirm('####', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          getAuditResult({
-            businessId: that.userData.businessId,
-            auditRecordId: that.userData.recordId,
-            auditType: that.userData.auditType,
-            auditNode: that.userData.auditNode,
-            operatorId: that.userData.opId,
-            ...that.form
-          }).then(response => {
-            if (response.data.errCode === "200") {
-              
-            } else {
-              that.$message({
-                type: 'info',
-                message: response.data.errMsg
-              });                 
+       this.$refs[form].validate((valid) => {
+          if (valid) {
+            if (this.form.auditNodeResult !== '1' && this.form.auditReason=== '') {
+                   that.$message({
+                    type: 'warning',
+                    message: '如果审批不通过，驳回信息必须填写'
+                  });  
+                  return false;             
             }
-            // console.log(response.data)
-          }).catch(error => {
-            console.log(error)
-          })
-          // this.$message({
-          //   type: 'success',
-          //   // message: '删除成功!'
-          // });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            // message: '已取消删除'
-          });       
+            let isYouBh = false;
+            this.auditRecord.auditProcessList.split(',').forEach(el => {
+              if (el !== '1') {
+                isYouBh = true;
+              }
+            })
+            let tishi = ''
+            if (this.form.auditNodeResult !== '1' && !isYouBh) {
+                tishi = '该客户风险较低'
+            }
+            if (this.form.auditNodeResult === '1' && isYouBh) {
+                    that.$message({
+                    type: 'warning',
+                    message: '对不起该用户存在风险，不能进行通过操作'
+                  });  
+                  return false;                 
+            }            
+            console.log('dddddddddd',this.auditRecord)
+              this.$confirm(tishi+'你确定将该审批' +this.dataList[this.form.auditNodeResult] + '吗？', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              getAuditResult({
+                businessId: that.userData.businessId,
+                auditRecordId: that.userData.recordId,
+                auditType: that.userData.auditType,
+                auditNode: 6,
+                ...that.form
+              }).then(response => {
+                if (response.data.errCode === "200") {
+                    that.getListAll();
+                    that.$message({
+                    type: 'success',
+                    message: '审批成功'
+                  });                
+                } else {
+                  that.$message({
+                    type: 'warning',
+                    message: response.data.errMsg
+                  });                 
+                }
+              }).catch(error => {
+                console.log(error)
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消'
+              });       
 
-        });      
-    }
+            });              
+          }else{
+            that.$message({
+              type: 'warning',
+              message: '请选择意见结论'
+            });  
+          }
+       })         
+    },
+    getListAll(){
+      getProcessData(this.userData).then(response => {
+        if (response.data.errCode === "200") {
+          let data = response.data.body;
+          if (data.processList !== undefined) {
+            this.processList = data.processList;
+          } 
+          if (data.auditRecordList !== undefined) {
+            this.auditRecordList = data.auditRecordList;
+            this.auditRecordList.forEach(el => {
+              if (el.operatorId === response.data.body.operatorId) {
+                this.auditRecord = el
+                return false;
+              }
+            })
+          }                     
+        }
+      }).catch(error => {
+        console.log(error)
+      })     
+      }
   }
 }
 </script>

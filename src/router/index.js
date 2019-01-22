@@ -48,6 +48,12 @@ export const constantRouterMap = [
     component: () => import('@/views/errorPage/401'),
     hidden: true
   },
+
+  {
+    path: '/changePassword',
+    component: () => import('@/views/changePassword/index'),
+    hidden: true
+  },
   // {
   //   path: '/userData',
   //   component: Layout,
@@ -175,7 +181,16 @@ export const constantRouterMap = [
         meta: {
           title: '贷款处理'
         }
-      }          
+      },
+      {
+        hidden: true,
+        path: 'preSurch3',
+        component: () => import('@/views/dashboard/userData'),
+        name: 'PreSurch3',
+        meta: {
+          title: '贷款查询详情'
+        }
+      }                
     ]
   },
   {
@@ -195,7 +210,31 @@ export const constantRouterMap = [
         meta: {
           title: '流程管理'
         }
-      }
+      },
+      {
+        path: 'userManagement',
+        component: () => import('@/views/system/user'),
+        name: 'userManagement',
+        meta: {
+          title: '用户管理'
+        }
+      },
+      {
+        path: 'organizational',
+        component: () => import('@/views/system/organizational'),
+        name: 'organizational',
+        meta: {
+          title: '机构管理'
+        }
+      },
+      {
+        path: 'roleManagement',
+        component: () => import('@/views/system/roleManagement'),
+        name: 'roleManagement',
+        meta: {
+          title: '角色管理'
+        }
+      }                  
     ]
   }     
 ]

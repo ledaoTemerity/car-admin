@@ -3,9 +3,9 @@ import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
-// create an axios instance
+// create an axios instance 47.99.196.68:8081  192.168.20.33:8081
 const service = axios.create({
-  baseURL: 'http://192.168.20.33:8081', // api 的 base_url
+  baseURL: 'http://47.99.196.68:8081/', // api 的 base_url
   timeout: 5000 // request timeout
 })
 
@@ -30,8 +30,18 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   response => {
-
     console.log('response',response)
+    // alert(response.data.errMsg)
+    if (response.data.errMsg === "登录认证已过期，请重新登录") {
+        Message({
+          message: '登录认证失败，请重新退出登录',
+          type: 'error'
+        })      
+      return Promise.reject("登录认证失败，请重新退出登录")
+    }
+    // if (JSON.stringify(response.data.body) === '{}') {
+    //   return Promise.reject("无数据")  
+    // }
     return response;
   },
   /**

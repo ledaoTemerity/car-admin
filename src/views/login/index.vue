@@ -1,17 +1,22 @@
 <template>
   <div class="login-container">
-
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
-      <div class="title-container">
-        <h3 class="title">{{ $t('login.title') }}</h3>
-        <lang-select class="set-language"/>
-      </div>
+        <img class="login-container-back" src="../../assets/dengluback.png" alt="">
+  <div class="login-container-conter-wrap">
+       <div class="title-container">
+         <img src="../../assets/logo.png" alt="" srcset="">
+      </div>   
+  <div class="login-container-conter">
+    <div class="login-conter-left">
+      <div class="login-conter-left-title">
+      清柠汽车金融审批后台
+    </div>
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
+        <div class="svg-container">
+          <!-- <svg-icon icon-class="user" /> -->
+          用户名
+        </div>
         <el-input
           v-model="loginForm.username"
           :placeholder="$t('login.username')"
@@ -22,9 +27,9 @@
       </el-form-item>
 
       <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
+        <div class="svg-container">
+          密码
+        </div>
         <el-input
           :type="passwordType"
           v-model="loginForm.password"
@@ -32,19 +37,26 @@
           name="password"
           auto-complete="on"
           @keyup.enter.native="handleLogin" />
-        <span class="show-pwd" @click="showPwd">
+        <!-- <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
-        </span>
+        </span> -->
       </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">{{ $t('login.logIn') }}</el-button>
     </el-form>
+    </div>
+    <div class="login-conter-right">
+      <img src="../../assets/dengluxiao.png" alt="">
+    </div>
+ </div>       
+      </div>
 
   </div>
 </template>
 
 <script>
 import { isvalidUsername } from '@/utils/validate'
+// import {workstatus } from '@/api/myMission'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './socialsignin'
 
@@ -53,23 +65,27 @@ export default {
   components: { LangSelect, SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
+      console.log('isvalidUsername(value)',value.length)
+      // alert(isvalidUsername(value))
       if (!isvalidUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('请输入正确格式的手机号'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (value.length < 8) {
+        callback(new Error('密码必须是6位以上'))
       } else {
         callback()
       }
     }
     return {
+            // "18234034747"
+      // "123456789"
       loginForm: {
-        username: 'admin',
-        password: '1111111'
+        username: '15658151157',
+        password: 'xc123456'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -91,6 +107,9 @@ export default {
   },
   created() {
     // window.addEventListener('hashchange', this.afterQRScan)
+    // workstatus().then(res => {
+    //   console.log('workstatus', res.data)
+    // })
   },
   destroyed() {
     // window.removeEventListener('hashchange', this.afterQRScan)
@@ -110,7 +129,19 @@ export default {
           this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
             this.loading = false
             this.$router.push({ path: this.redirect || '/' })
-          }).catch(() => {
+            this.$message({
+                type: 'success',
+                message: '登录成功'
+            });            
+          }).catch(error => {
+            if (error === '需要修改密码') {
+              alert(error)
+              this.$router.push( { path:'/changePassword' })
+            }            
+            this.$message({
+                type: 'error',
+                message: error
+            });              
             this.loading = false
           })
         } else {
@@ -146,8 +177,8 @@ export default {
   /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
   $bg:#283443;
-  $light_gray:#eee;
-  $cursor: #fff;
+  $light_gray:rgba(3,3,3,1);
+  $cursor: rgba(3,3,3,1);
 
   @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
     .login-container .el-input input{
@@ -166,13 +197,16 @@ export default {
       width: 85%;
       input {
         background: transparent;
-        border: 0px;
-        -webkit-appearance: none;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        // -webkit-appearance: none;
         border-radius: 0px;
-        padding: 12px 5px 12px 15px;
+        // padding: 12px 5px 12px 15px;
         color: $light_gray;
         height: 47px;
-        caret-color: $cursor;
+        padding: 0px;
+        // caret-color: $cursor;
         &:-webkit-autofill {
           -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
           -webkit-text-fill-color: $cursor !important;
@@ -180,10 +214,13 @@ export default {
       }
     }
     .el-form-item {
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
-      color: #454545;
+      // border-bottom: 1px solid rgba(155,155,155,1);
+      // background: rgba(0, 0, 0, 0.1);
+      width:206px;
+      // height:1px;
+// background:rgba(155,155,155,1);
+      // border-radius: 5px;
+      // color: #454545;
     }
   }
 </style>
@@ -194,17 +231,85 @@ $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .login-container {
-  min-height: 100%;
+  max-height: 100%;
   width: 100%;
-  background-color: $bg;
+  // background-image:url('../../assets/dengluback.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
   overflow: hidden;
+  position: relative;
+  .title-container {
+    img {
+      height: 40px;
+      margin-left: 40px;
+      margin-top: 24px;      
+    }
+  }
+  .login-container-back {
+    width:100%;
+    height: 100%;
+  }
+  .login-container-conter-wrap {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;    
+  }
+  .login-container-conter {
+    width:823px;
+    height:443px;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 16px 16px 4px rgba(19,78,110,0.2);
+    border-radius:10px;   
+    margin: 0 auto;
+    margin-top: 146px;  
+    button {
+      margin-bottom: 30px;
+      width: 119px !important;
+      height: 32px;
+      background: linear-gradient(270deg,rgba(86,186,145,1) 0%,rgba(19,123,140,1) 100%);
+      box-shadow: 0px 2px 6px 0px rgba(19,78,110,0.2);
+      border-radius: 16px;
+      border: 0;     
+      margin-top: 30px; 
+    }
+    .login-conter-left{
+      float: left;
+      width:302px;
+      padding-top: 48px;
+      padding-left: 48px;
+      .login-conter-left-title {
+        height:33px;
+        font-size:24px;
+        font-family:PingFangSC-Semibold;
+        font-weight:600;
+        color:rgba(3,3,3,1);
+        line-height:33px;       
+      }
+    }
+    .login-conter-right{
+      float: right;
+      width: 521px;;
+      height: 100%;
+      // background-image:url('../../assets/dengluxiao.png');
+      background-size: 100%;
+      background-repeat: no-repeat;  
+      border: 1px dashed rgba(155,155,155,0.5);  
+      img{
+        width:100%;
+        height: 100%;
+      }  
+    }
+  }
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    // padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+    padding-top: 80px;
   }
   .tips {
     font-size: 14px;
@@ -217,11 +322,17 @@ $light_gray:#eee;
     }
   }
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    // padding: 6px 5px 6px 15px;
     color: $dark_gray;
     vertical-align: middle;
-    width: 30px;
-    display: inline-block;
+    // width:29px;
+    height:13px;
+    font-size:15px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(155,155,155,1);
+    line-height:13px;
+    padding:0px;
   }
   .title-container {
     position: relative;

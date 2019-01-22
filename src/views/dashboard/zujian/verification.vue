@@ -4,12 +4,13 @@
         <div>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="意见结论" prop="auditNodeResult">
+          <!-- {{form.auditNodeResult}} -->
             <el-radio-group v-model="form.auditNodeResult">
-            <el-radio label="1">此模块核对无误</el-radio>
-            <el-radio label="2">此模块核对异常</el-radio>
+            <el-radio label="1">通过</el-radio>
+            <el-radio label="2">驳回</el-radio>
             </el-radio-group>
         </el-form-item>
-        <el-form-item label="活动形式">
+        <el-form-item label="内部意见">
             <el-input type="textarea" v-model="form.insideOpinion"></el-input>
         </el-form-item>
         <el-form-item>
@@ -45,16 +46,13 @@ export default {
         }
     }
   },
-  created() {
-    console.log("woshi???????",this.verificationData)
-  },
   methods: {
        submitForm(form) {
          console.log(this.form)
         this.$refs[form].validate((valid) => {
           if (valid) {
             // this.open()
-            if (this.form.auditNodeResult === "2" && this.form.desc === '') {
+            if (this.form.auditNodeResult === "2" && this.form.insideOpinion === '') {
                  this.open("如果是异常，内部意见必填")
                  return false;
             } 
@@ -62,24 +60,34 @@ export default {
             let news = {
               1:'基本信息审核',2:'贷款信息审核',3:'反欺诈评估',4:'征信信息',5:'影像管理'
             } 
-            this.$alert(news[this.verificationData.auditNode] + '模块，已审核完毕', '消息提示', {
+            this.$confirm(news[this.verificationData.auditNode] + '模块，已检查完毕', '提示', {
               confirmButtonText: '确定',
-              callback: action => {
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
                 getAuditprocess({
                   ...this.verificationData,
                   ...this.form
                 }).then(response => {
                   console.log('verificationData',response)
                   if (response.data.errCode === "200") {
-                      this.open("审核提交成功")
+                    this.$emit("isShoworHidden",true);
+                    this.$message({
+                      type: 'success',
+                      message: '审核成功!'
+                    });
                   } else {
                       this.open(response.data.errMsg)
                   }
                 }).catch(error => {
                   this.open(error)
-                })
-              }
-            });           
+                })              
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消审核'
+              });          
+            });        
           } else {
             this.open("请选择意见结论")
             return false;

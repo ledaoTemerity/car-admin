@@ -9,22 +9,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    // proxyTable:{
-    // '/apis': {    //将www.exaple.com印射为/apis
-    //     // target: 'http://192.168.20.33:8081/ledao',  // 接口域名
-    //     changeOrigin: true,  //是否跨域
-    //     pathRewrite: {
-    //         '^/api': ''   //需要rewrite的,
-    //     } 
-    //   }             
-    // },
+    proxyTable:{          
+    },
 
     // Various Dev Server settings
 
     // can be overwritten by process.env.HOST
     // if you want dev by ip, please set host: '0.0.0.0'
-    host: 'localhost',
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    host: '0.0.0.0',
+    port: 9527, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: false,
@@ -68,7 +61,7 @@ module.exports = {
      * then assetsPublicPath should be set to "/bar/".
      * In most cases please use '/' !!!
      */
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

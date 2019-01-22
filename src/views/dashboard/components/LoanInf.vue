@@ -77,8 +77,8 @@
                                         
       </div>  
     </div>
-    <div class="essential-other" v-if="userData.auditType === 0 && userData.auditStatus === '0'">
-      <verification :verificationData="verificationData"/>      
+    <div class="essential-other" v-if="userData.isPage !== 'chedaichaxun' && userData.auditType === 0 && userData.auditStatus === '0' && auditResultData === undefined && !isShow">
+      <verification   @isShoworHidden="isShoworHidden" :verificationData="verificationData"/>      
     </div>   
   </div>
 </template>
@@ -100,25 +100,11 @@ export default {
     return{
         // tabPosition: '1',
         // form:{},
+        isShow: false,
         verificationData: {},
         loanData: {},
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]        
+        tableData: [] ,
+        auditResultData: {}       
     }
   },
   created() {
@@ -126,18 +112,25 @@ export default {
       businessId: this.userData.businessId,
       auditRecordId: this.userData.recordId,
       auditType: this.userData.auditType,
-      auditNode: 2,//基本信息审核
-      operatorId: this.userData.opId
+      auditNode: 2//基本信息审核
     }      
     getLoanData(this.userData).then(response => {
-      console.log(response.data)
+      // console.log(response.data)
       if (response.data.errCode === "200") {
-        this.loanData = response.data.body.loanData;
+          if (response.data.body.loanData !== undefined) {
+            this.loanData = response.data.body.loanData;
+          }        
+        this.auditResultData= response.data.body.auditResultData;  
       }
     }).catch(error => {
-      console.log(error)
+       this.$message.error(error);        
     })
-  }
+  },
+  methods: {
+    isShoworHidden(data){
+      this.isShow = data;
+    },    
+  }  
 }
 </script>
 

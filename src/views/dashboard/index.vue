@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
      <div class="event-tab">
-        <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
+        <el-radio-group v-if="$route.query.page !== 'chedaichaxun'" v-model="tabPosition" style="margin-bottom: 30px;">
           <el-radio-button label="0" >代办事件</el-radio-button>
           <el-radio-button label="1">已办事件</el-radio-button>
         </el-radio-group>
@@ -38,7 +38,7 @@
                 <el-form-item label="流程节点" prop="businessNodeCode">
                   <el-select v-model="formInline.businessNodeCode" placeholder="审批状态">
                     <el-option label="请选择" value="请选择"></el-option>
-                    <el-option v-for="item in processList" :key="item.businessNodeCode" :label="item.businessNodeName" :value="item.businessNodeCode"></el-option>
+                    <el-option v-for="(item,index) in processList" :key="index" :label="item.businessNodeName" :value="item.businessNodeCode"></el-option>
                   </el-select>
                 </el-form-item>            
               </el-col>
@@ -66,8 +66,11 @@
               label="业务编号">
             </el-table-column>
             <el-table-column
-              prop="auditType"
+              prop="auditTypeStr"
               label="流程名称">
+              <!-- <template slot-scope="scope">
+                {{scope.row.auditType === '0' ? '征信审批': '贷款审批'}}
+              </template> -->
             </el-table-column>
             <el-table-column
               prop="businessNodeName"
@@ -82,17 +85,18 @@
                 label="客户名称">
               </el-table-column>
             <el-table-column
-                prop="zip"
+                prop="departmentName"
                 label="机构名称">
               </el-table-column>            
             <el-table-column
-                prop="zip"
+                prop="groupName"
                 label="业务组">
               </el-table-column>
             <el-table-column
-                prop="businessType"
+                prop="businessTypeStr"
                 label="业务类型">
               </el-table-column> 
+
             <el-table-column
                 prop="totalPayment"
                 label="贷款金额">
@@ -175,7 +179,10 @@ export default {
     // ])
   },
   created() {
-    console.log("pppppppp",this.$route.query.page)
+    if (this.$route.query.page === 'chedaichaxun') {
+      this.tabPosition = '';
+    }
+    console.log("pppppppp  page  page",this.$route.query.page)
     this.getList({
       "page": 1,
       "auditType": 0,
@@ -183,6 +190,10 @@ export default {
     });
     getBusinessNodeCode().then(response => {
       if (response.data.errCode === '200') {
+           if (JSON.stringify(response.data.body) === '{}') {
+            this.$message.error("没有数据");  
+            return false;
+          }       
           this.processList = response.data.body.processList;
       }
     }).catch(error => {
@@ -200,7 +211,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.getList({
-      "page": val-1,
+      "page": val,
       "auditStatus": 0 ,
       ...this.formInline     
     });
@@ -229,9 +240,13 @@ export default {
       getMissionDBList(prams).then(response => {
         this.loading = false;
         if (response.data.errCode === '200') {
+          if (JSON.stringify(response.data.body) === '{}') {
+            this.$message.error("没有数据");  
+            return false;
+          }
           console.log(response.data.body.list)
           this.tableData = response.data.body.list.dataList;
-          this.maxPage = response.data.body.list.pagesize*10;
+          this.maxPage = response.data.body.list.totalPages*10;
         }
       }).catch(error => {
        this.$message.error(error);        
@@ -239,7 +254,15 @@ export default {
     },
     goPage(prams){
       console.log(prams)
-      this.$router.push({ path:'userData', query: { userData: JSON.stringify(prams) ,auditStatus: this.tabPosition}})
+      let path = ''
+      if (this.$route.query.page === 'woderenwu' || this.$route.query.page === undefined ) {
+        path = 'userData';
+      } else if(this.$route.query.page === 'chedaichaxun') {
+        path = '/preloan/preSurch2'
+      } else if(this.$route.query.page === 'daikuanguanli') {
+        path = '/preloan/preSurch3'
+      }
+      this.$router.push({ path: path, query: { userData: JSON.stringify(prams) ,auditStatus: this.tabPosition ,page: this.$route.query.page}})
     }     
   }
 }

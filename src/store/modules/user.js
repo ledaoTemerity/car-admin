@@ -46,18 +46,31 @@ const user = {
   actions: {
     // 用户名登录
     LoginByUsername({ commit }, userInfo) {
+      console.log(userInfo)
       const username = userInfo.username.trim()
+      const password = userInfo.password.trim()
+
       return new Promise((resolve, reject) => {
-        loginByUsername("13675841069", "123456").then(response => {
+        loginByUsername(username,password ).then(response => {
           if (response.data.errCode === "200") {
-            console.log("~~~~~~~~~~~",response.data.body.token)
             const data = response.data.body
-            console.log("wwwwwwwwwwwwwwwwwwwww",data.token)
             commit('SET_TOKEN', data.token)
             setToken(data.token)
             resolve()            
+          }else if(response.data.errCode === "402"){
+            reject('用户名不存在')          
+          }else if(response.data.errCode === "403"){
+            reject('密码错误')          
+          }else if(response.data.errCode === "404"){
+            reject('需要修改密码')          
+          }else if(response.data.errCode === "406"){
+            reject('用户名为无效手机号')          
+          }else if(response.data.errCode === "407"){
+            reject('密码格式错误')          
+          }else if(response.data.errCode === "408"){
+            reject('无效手机号')          
           }else {
-            reject("登录失败")          
+            reject(response.data.errMsg)
           }
         }).catch(error => {
           reject(error)

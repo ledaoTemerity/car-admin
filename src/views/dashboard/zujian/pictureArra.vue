@@ -4,7 +4,7 @@
     <div class="credit-u">
         <viewer :images="greditData">
         <div class="credit-li" v-for="(item,index) in greditData" :key="item + index">
-            {{        JSON.stringify(item)}}
+            <!-- {{        JSON.stringify(item)}} -->
             <img :src="item" alt="">
             <p v-if=" cardTitle === '身份证图片'">{{carNane[index]}}</p>
         </div>

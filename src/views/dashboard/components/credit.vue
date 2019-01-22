@@ -2,8 +2,8 @@
   <div class="credit">  
     <picture-arra :greditData="greIDCard" :cardTitle="'身份证图片'"/>
     <picture-arra :greditData="greCredit" :cardTitle="'征信图片'"/>
-    <div class="essential-other" v-if="userData.auditType === 0 && userData.auditStatus === '0'">
-      <verification :verificationData="verificationData" />
+    <div class="essential-other" v-if="userData.isPage !== 'chedaichaxun' && userData.auditType === 0 && userData.auditStatus === '0'&& auditResultData === undefined && !isShow">
+      <verification @isShoworHidden="isShoworHidden" :verificationData="verificationData" />
     </div>               
   </div>
 </template>
@@ -26,32 +26,36 @@ export default {
       greIDCard: [],
       greCredit: [],
       verificationData: {},
-      showAndHidde: {}
+      showAndHidde: {},
+      isShow: false,
+      auditResultData: {}
     }
   },
   created() {
-    // console.log("--------------",this.userData)
      this.verificationData = {
       businessId: this.userData.businessId,
       auditRecordId: this.userData.recordId,
       auditType: this.userData.auditType,
-      auditNode: 3,//基本信息审核
-      operatorId: this.userData.opId
-    }  
-    // this.showAndHidde = {
-    //   auditStatus: this.userData.auditStatus
-    // }     
+      auditNode: 4//基本信息审核
+    }   
       getCreditData(this.userData).then(response => {
           if (response.data.errCode === '200') {
+            if (response.data.body.greditData !== undefined) {
             let data = response.data.body.greditData;
             this.greCredit= JSON.parse(data.creditLicense); 
-                      console.log('我是',response.data);  
                  this.greIDCard.push(data.idCardFront);
-                 this.greIDCard.push(data.idCardBack);      
+                 this.greIDCard.push(data.idCardBack);               
+            }                 
+             this.auditResultData= response.data.body.auditResultData;    
           } 
       }).catch(error => {
           console.log(error)
       })
+  },
+  methods: {
+      isShoworHidden(data){
+      this.isShow = data;
+    },
   }
 }
 </script>

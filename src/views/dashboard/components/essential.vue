@@ -28,7 +28,7 @@
                 </div></el-col>
             <el-col :span="8"><div class="grid-content bg-purple">
               <label>性别：</label>
-              <span>{{basicData.gender}}</span>                
+              <span>{{basicData.genderStr}}</span>                
                 </div></el-col>
         </el-row>    
         <el-row>
@@ -48,7 +48,7 @@
         <el-row>
             <el-col :span="8"><div class="grid-content bg-purple">
               <label>最高学历：</label>
-              <span>{{basicData.education}}</span>
+              <span>{{basicData.education_st}}</span>
             </div></el-col>
             <el-col :span="8"><div class="grid-content bg-purple-light">
                <label>居住地址：</label>
@@ -56,7 +56,7 @@
                 </div></el-col>
             <el-col :span="8"><div class="grid-content bg-purple">
               <label>居住年限(满一年或者未满一年)：</label>
-              <span>{{basicData.residenceTime}}</span>                
+              <span>{{basicData.residenceTimeStr}}</span>                
                 </div></el-col>
         </el-row>
         <el-row>
@@ -66,7 +66,7 @@
             </div></el-col>
             <el-col :span="8"><div class="grid-content bg-purple-light">
                <label>驾龄：</label>
-              <span>{{basicData.drivingAge}}</span>               
+              <span>{{basicData.drivingAge + '年'}}</span>               
                 </div></el-col>
             <el-col :span="8"><div class="grid-content bg-purple">
               <label>汽车价格：</label>
@@ -104,7 +104,7 @@
         </div>  
     </div>
     <div class="essential-other">
-      <verification :verificationData = "verificationData" v-if="userData.auditType === 0 && userData.auditStatus === '0'"/>
+      <verification :verificationData="verificationData"   @isShoworHidden="isShoworHidden" v-if="userData.isPage !== 'chedaichaxun' && userData.auditType === 0 && userData.auditStatus === '0' && auditResultData === undefined && !isShow"/>
       <div class="verification">
           <div class="verification-p">信息修改记录
             <div class="verification-add">
@@ -174,8 +174,10 @@ export default {
   data(){
     return{
         // tabPosition: '1',
+        auditResultData:{},
         basicData: {},
         contactList: [],
+        isShow: false,
         form:{
           field:'',
           content: ''
@@ -197,51 +199,59 @@ export default {
     }
   },
   created() {
-    // console.log("9999999999999", this.userData)
     this.verificationData = {
       businessId: this.userData.businessId,
       auditRecordId: this.userData.recordId,
       auditType: this.userData.auditType,
-      auditNode: 1,//基本信息审核
-      operatorId: this.userData.opId
+      auditNode: 1//基本信息审核
     }
-    // this.showAndHidde = {
-    //   auditStatus: this.userData.auditStatus
-    // }
-    this.loading = true;
-    getBasicdata(this.userData).then(response => {
-      this.loading = false;
-      if (response.data.errCode === "200") {
-              console.log('woni',response.data.body.basicData);
-        this.basicData = response.data.body.basicData;
-        console.log(response.data.body)
-        this.contactList = response.data.body.contactList;
-        this.tableData = response.data.body.cModifyList;
-      }
-    }).catch(error => {
-      console.log(error)
-      this.loading = false;
-    })
+    this.getListData();
+
   },
   methods:{
+    isShoworHidden(data){
+      this.isShow = data;
+    },
     addList(form){
         this.$refs[form].validate((valid) => {
           if (valid) { 
             console.log("--------",this.userData)
+            this.dialogFormVisible = false
             getcmodify({
               businessId: this.userData.businessId,
               auditRecordId: this.userData.recordId,
               customerId: this.userData.customerId,
-              operatorId:this.userData.opId,
               auditType: this.userData.auditType,
               ...this.form
             }).then(response => {
               console.log("*********", response.data)
+              if (response.data.errCode === '200') {
+                this.getListData();
+              }
             }).catch(error => {
               console.log(error)
             })
           }   
         })  
+    },
+    getListData(){
+    this.loading = true;
+    getBasicdata(this.userData).then(response => {
+      this.loading = false;
+      if (response.data.errCode === "200") {
+          if (response.data.body.basicData !== undefined) {
+            this.basicData = response.data.body.basicData;
+          }
+          if (response.data.body.contactList !== undefined) {
+            this.contactList = response.data.body.contactList;
+          }         
+        this.tableData = response.data.body.cModifyList;
+         this.auditResultData= response.data.body.auditResultData;        
+      }
+    }).catch(error => {
+      console.log(error)
+      this.loading = false;
+    })
     }
   }
 }

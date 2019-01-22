@@ -104,7 +104,7 @@ export default {
         _path = path.resolve(this.basePath, routePath) + '?page=woderenwu'
       } else if(path.resolve(this.basePath, routePath) === '/preloan/preSurch') {
          _path = path.resolve(this.basePath, routePath) + '?page=chedaichaxun'
-      }else if(path.resolve(this.basePath, routePath) === '//preloan/preSurch1'){
+      }else if(path.resolve(this.basePath, routePath) === '/preloan/preSurch1'){
          _path = path.resolve(this.basePath, routePath) + '?page=daikuanguanli'
       }else{
         _path = path.resolve(this.basePath, routePath)

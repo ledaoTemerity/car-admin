@@ -89,3 +89,166 @@ export function getFrauDassessMentData(data) {
     data
   })  
 }
+
+// 新增节点模块
+export function getProcessList(data) {
+  return request({
+    url: '/ledao/strs/process/getProcessList',
+    method: 'post',
+    data
+  })   
+}
+
+export function addProcessNode(data) {
+  return request({
+    url: '/ledao/strs/process/addProcessNode',
+    method: 'post',
+    data
+  })   
+}
+
+export function getCompanyList(data) {
+  return request({
+    url: '/ledao/strs/org/getCompanyList',
+    method: 'post',
+    data
+  })    
+}
+
+export function getDeptList(data) {
+  return request({
+    url: '/ledao/strs/org/getDeptList',
+    method: 'post',
+    data
+  })     
+}
+
+export function getOperatorList(data) {
+  return request({
+    url: '/ledao/strs/operator/getOperatorList',
+    method: 'post',
+    data
+  })      
+}
+
+export function getqxMenuList(data) {
+  return request({
+    url: '/ledao/strs/operator/getOperatorList',
+    method: 'post',
+    data
+  })      
+}
+
+export function getRoleList(data) {
+  return request({
+    url: '/ledao/strs/operator/role/getRoleList',
+    method: 'post',
+    data
+  })  
+}
+
+export function deleteUser(data) {
+  return request({
+    url: '/ledao/strs/operator/delete',
+    method: 'post',
+    data
+  })    
+}
+
+export function createUserData(data){
+  return request({
+    url: '/ledao/strs/operator/create',
+    method: 'post',
+    data
+  })   
+}
+
+
+export function editUserData(data) {
+  return request({
+    url: '/ledao/strs/operator/edit',
+    method: 'post',
+    data
+  })    
+}
+
+export function deleteRole(data) {
+  return request({
+    url: '/ledao/strs/operator/role/delete',
+    method: 'post',
+    data
+  })   
+}
+
+export function editRole(data) {
+  return request({
+    url: '/ledao/strs/operator/role/edit',
+    method: 'post',
+    data
+  })    
+}
+
+export function addRole(data) {
+  return request({
+    url: '/ledao/strs/operator/role/add',
+    method: 'post',
+    data
+  })      
+}
+
+export function getAllMenu(data) {
+  return request({
+    url: '/ledao/strs/operator/menu/all',
+    method: 'post',
+    data
+  })     
+}
+
+export function getOrgList(data) {
+  return request({
+    url: '/ledao/strs/org/getOrgList',
+    method: 'post',
+    data
+  })  
+}
+
+
+export function addOrg(data) {
+  return request({
+    url: '/ledao/strs/org/addOrg',
+    method: 'post',
+    data
+  })  
+}
+
+export function editQx(data) {
+  return request({
+    url: '/ledao/strs/operator/menu/edit',
+    method: 'post',
+    data
+  })   
+}
+
+export function workstatus(data) {
+  return request({
+    url: '/ledao/strs/manager/task/gt/workstatus',
+    method: 'post',
+    data
+  })     
+}
+
+export function oprWorkStatus(data){
+  return request({
+    url: '/ledao/strs/manager/task/up/workstatus',
+    method: 'post',
+    data
+  })     
+}
+
+export function resetPassword(data) {
+  return request({
+    url: '/ledao/strs/operator/reset',
+    method: 'post',
+    data
+  })   
+}

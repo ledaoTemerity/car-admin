@@ -2,8 +2,8 @@
   <div class="ImageInformation"> 
       <!-- ImageInformation -->
       <pictureArra :greditData="greditData" :cardTitle="'征信资料'"/>
-    <div class="essential-other" v-if="userData.auditStatus === '0'">
-      <verification :verificationData="verificationData"/>      
+    <div class="essential-other" v-if="userData.isPage !== 'chedaichaxun' && userData.auditStatus === '0' && auditResultData === undefined && !isShow">
+      <verification   @isShoworHidden="isShoworHidden" :verificationData="verificationData"/>      
     </div>       
   </div>
 </template>
@@ -24,7 +24,8 @@ export default {
   data(){
     return{
       greditData: [],
-      verificationData: {}
+      verificationData: {},
+      isShow: false
     }
   },
   created() {
@@ -32,8 +33,7 @@ export default {
       businessId: this.userData.businessId,
       auditRecordId: this.userData.recordId,
       auditType: this.userData.auditType,
-      auditNode: 5,//基本信息审核
-      operatorId: this.userData.opId
+      auditNode: 5//基本信息审核
     }
     // this.showAndHidde = {
     //   auditStatus: this.userData.auditStatus
@@ -41,14 +41,20 @@ export default {
     getImageData(this.userData).then(response => {
       console.log(response.data.errCode)
       if (response.data.errCode === "200") {
-        if (response.data.body.imgeData.contractImgs) {
-             let contractImgs = JSON.parse(response.data.body.imgeData.contractImgs);  
-             this.greditData = contractImgs      
+        if (response.data.body.imageData.contractImgs) {
+             let contractImgs = JSON.parse(response.data.body.imageData.contractImgs);  
+             this.greditData = contractImgs  
+             this.auditResultData= response.data.body.auditResultData;      
         }
       }
     }).catch(error => {
       console.log(error)
     })
+  },
+  methods: {
+    isShoworHidden(data){
+      this.isShow = data;
+    },    
   }
 }
 </script>

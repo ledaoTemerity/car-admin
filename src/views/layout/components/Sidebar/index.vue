@@ -36,12 +36,24 @@ export default {
   },
   watch:{
     '$route' (to, from) {
-    // console.log('$route.path------',this.$route.fullPath)
-        this.defaultActive = this.$route.fullPath;
+      if ( this.$route.fullPath === '/dashboard') {
+          this.defaultActive = this.$route.fullPath + '?page=woderenwu';      
+      }else if(this.$route.path === '/userData'){
+          this.defaultActive = '/dashboard?page=woderenwu'; 
+      }else {
+          this.defaultActive = this.$route.fullPath
+      }
     }
   },
   created(){
-    this.defaultActive = this.$route.fullPath;
+    // alert(this.$route.path)
+      if ( this.$route.fullPath === '/dashboard') {
+          this.defaultActive = this.$route.fullPath + '?page=woderenwu';      
+      }else if(this.$route.path === '/userData'){
+          this.defaultActive = '/dashboard' + '?page=woderenwu';  
+      }else {
+          this.defaultActive = this.$route.fullPath
+      }
     // console.log('$route.path------',this.$route)
   }
 }
