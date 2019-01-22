@@ -50,7 +50,11 @@
       <el-table-column prop="telephone" label="联系电话"/>
       <el-table-column prop="state" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="handelstate(scope.row)">修改状态</el-button>
+          <el-button
+            type="text"
+            size="small"
+            @click="handelstate(scope.row)"
+          >{{scope.row.state===0 ? '启用' : '停用'}}</el-button>
           <el-button type="text" size="small" @click="handleEdit(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
@@ -416,39 +420,36 @@ export default {
           const telephone = this.addForm.telephone;
           const provinceId = this.addForm.provinceId;
           let provinceName = "";
-          if(provinceId !== null && provinceId !== ""){
-              let obj1 = {};
-          
-          obj1 = this.provinceData.find(item => {
-            return item.areaId === this.addForm.provinceId; // 筛选出匹配数据
-          });
-          provinceName = obj1.areaName;
+          if (provinceId !== null && provinceId !== "") {
+            let obj1 = {};
+
+            obj1 = this.provinceData.find(item => {
+              return item.areaId === this.addForm.provinceId; // 筛选出匹配数据
+            });
+            provinceName = obj1.areaName;
           }
-          
 
           const cityId = this.addForm.cityId;
           let cityName = "";
-          if(cityId !== null && cityId !== ""){
-              let obj2 = {};
-          
-          obj2 = this.cityData.find(item => {
-            return item.areaId === this.addForm.cityId; // 筛选出匹配数据
-          });
-          cityName = obj2.areaName;
+          if (cityId !== null && cityId !== "") {
+            let obj2 = {};
+
+            obj2 = this.cityData.find(item => {
+              return item.areaId === this.addForm.cityId; // 筛选出匹配数据
+            });
+            cityName = obj2.areaName;
           }
-          
 
           const districtId = this.addForm.districtId;
           let districtName = "";
-          if(districtId !== null && districtId !== ""){
+          if (districtId !== null && districtId !== "") {
             let obj3 = {};
-          
-          obj3 = this.districtData.find(item => {
-            return item.areaId === this.addForm.districtId; // 筛选出匹配数据
-          });
-          districtName = obj3.areaName;
+
+            obj3 = this.districtData.find(item => {
+              return item.areaId === this.addForm.districtId; // 筛选出匹配数据
+            });
+            districtName = obj3.areaName;
           }
-          
 
           const address = this.addForm.address;
           const state = this.addForm.state;
@@ -502,13 +503,13 @@ export default {
       this.editForm.districtId = row.districtId;
       this.editForm.address = row.address;
       this.editForm.state = row.state;
-        city(row.provinceId)
+      city(row.provinceId)
         .then(res => {
           this.cityData = res.data.body;
         })
         .catch(error => {});
-      
-        district(row.cityId)
+
+      district(row.cityId)
         .then(res => {
           this.districtData = res.data.body;
         })
@@ -524,38 +525,42 @@ export default {
           const provinceId = this.editForm.provinceId;
           let provinceName = "";
           let obj1 = {};
-          if(provinceId !== null && provinceId !== "" && provinceId !== undefined){
-              
-          
-          obj1 = this.provinceData.find(item => {
-            return item.areaId === this.editForm.provinceId; // 筛选出匹配数据
-          });
-          console.log(obj1);
-          provinceName = obj1.areaName;
+          if (
+            provinceId !== null &&
+            provinceId !== "" &&
+            provinceId !== undefined
+          ) {
+            obj1 = this.provinceData.find(item => {
+              return item.areaId === this.editForm.provinceId; // 筛选出匹配数据
+            });
+            console.log(obj1);
+            provinceName = obj1.areaName;
           }
 
           const cityId = this.editForm.cityId;
           let cityName = "";
-              let obj2 = {};
-          if(cityId !== null && cityId !== "" && cityId !== undefined){
-          
-          obj2 = this.cityData.find(item => {
-            return item.areaId === this.editForm.cityId; // 筛选出匹配数据
-          });
-          console.log(obj2);
-          cityName = obj2.areaName;
+          let obj2 = {};
+          if (cityId !== null && cityId !== "" && cityId !== undefined) {
+            obj2 = this.cityData.find(item => {
+              return item.areaId === this.editForm.cityId; // 筛选出匹配数据
+            });
+            console.log(obj2);
+            cityName = obj2.areaName;
           }
           const districtId = this.editForm.districtId;
-          console.log(districtId)
+          console.log(districtId);
           let districtName = "";
-            let obj3 = {};
-          if(districtId !== null && districtId !== "" && districtId !== undefined){
-          
-          obj3 = this.districtData.find(item => {
-            return item.areaId === this.editForm.districtId; // 筛选出匹配数据
-          });
-          console.log(obj3);
-          districtName = obj3.areaName;
+          let obj3 = {};
+          if (
+            districtId !== null &&
+            districtId !== "" &&
+            districtId !== undefined
+          ) {
+            obj3 = this.districtData.find(item => {
+              return item.areaId === this.editForm.districtId; // 筛选出匹配数据
+            });
+            console.log(obj3);
+            districtName = obj3.areaName;
           }
 
           const address = this.editForm.address;
@@ -605,25 +610,32 @@ export default {
     },
     // 修改状态
     handelstate(row) {
-      console.log(JSON.stringify(row));
-      let state = 0;
-      if (row.state == 0) {
-        state = 1;
-      }
-      if (row.state == 1) {
-        state = 0;
-      }
-      licensestate(row.id, state)
-        .then(res => {
-          licenseList(this.currentPage, this.pageSize)
+      this.$confirm("此操作将修改状态, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          let state = 0;
+          if (row.state == 0) {
+            state = 1;
+          }
+          if (row.state == 1) {
+            state = 0;
+          }
+          licensestate(row.id, state)
             .then(res => {
-              this.tableData = res.data.body.dataList;
-              this.currentPage = res.data.body.currentpage;
-              this.totalItem = res.data.body.totalPages;
+              licenseList(this.currentPage, this.pageSize)
+                .then(res => {
+                  this.tableData = res.data.body.dataList;
+                  this.currentPage = res.data.body.currentpage;
+                  this.totalItem = res.data.body.totalPages;
+                })
+                .catch(error => {});
             })
             .catch(error => {});
         })
-        .catch(error => {});
+        .catch(() => {});
     }
   }
 };
