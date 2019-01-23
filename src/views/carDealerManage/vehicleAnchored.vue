@@ -30,7 +30,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button @click="find">查询</el-button>
+        <el-button type="primary" @click="find">查询</el-button>
       </el-form-item>
       <el-form-item>
         <el-button @click="clear">重置</el-button>
@@ -350,6 +350,17 @@ export default {
     // 清除查询条件
     clear() {
       this.$refs.topForm.resetFields();
+      const company = this.topForm.company;
+      const provinceId = this.topForm.provinceId;
+      const cityId = this.topForm.cityId;
+      licenseList(this.currentPage, this.pageSize, company, provinceId, cityId)
+        .then(res => {
+          console.log(res);
+          this.tableData = res.data.body.dataList;
+          this.currentPage = res.data.body.currentpage;
+          this.totalItem = res.data.body.totalItem;
+        })
+        .catch(error => {});
     },
     // 省份onChange事件
     provinceChange(provinceId) {

@@ -9,10 +9,10 @@
         <el-input v-model="topForm.findType" placeholder="请输入车系"/>
       </el-form-item>
       <el-form-item>
-        <el-button @click="find">查询</el-button>
+        <el-button type="primary" @click="find">查询</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button @click="clear">清除查询条件</el-button>
+        <el-button @click="clear">重置</el-button>
       </el-form-item>
       <el-form-item>
         <el-button @click="dialogFormVisible = true">新增车型</el-button>
@@ -240,6 +240,21 @@ export default {
     // 清除查询条件
     clear() {
       this.$refs.topForm.resetFields();
+      this.brandName = this.topForm.findBrand;
+      this.seriesName = this.topForm.findType;
+      this.currentpage = 1;
+      carTypeList(
+        this.currentpage,
+        this.pagesize,
+        this.brandName,
+        this.seriesName
+      )
+        .then(res => {
+          this.tableData = res.data.body.dataList;
+          this.currentpage = res.data.body.currentpage;
+          this.totalItem = res.data.body.totalItem;
+        })
+        .catch(error => {});
     },
     // 查询
     find() {

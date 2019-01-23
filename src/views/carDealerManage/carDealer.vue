@@ -21,10 +21,10 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button @click="find">查询</el-button>
+        <el-button type="primary" @click="find">查询</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button @click="clear('topForm')">清除查询条件</el-button>
+        <el-button @click="clear('topForm')">重置</el-button>
       </el-form-item>
       <el-form-item>
         <el-button @click="dialogFormVisible = true">新增车商</el-button>
@@ -314,6 +314,21 @@ export default {
     // 清除查询条件
     clear(formName) {
       this.$refs[formName].resetFields();
+      this.currentpage = 1;
+      carDealerList(
+        this.currentpage,
+        this.pagesize,
+        this.topForm.dealerName,
+        this.topForm.status,
+        this.topForm.carDealerOrgId
+      )
+        .then(res => {
+          this.tableData = res.data.body.dataList;
+          this.currentpage = res.data.body.currentpage;
+          console.log(res);
+          this.totalItem = res.data.body.totalItem;
+        })
+        .catch(error => {});
     },
     // 查询
     find() {
