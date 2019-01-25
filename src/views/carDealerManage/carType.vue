@@ -72,7 +72,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="车型" prop="style">
-          <el-input v-model="addForm.style" autocomplete="off"/>
+          <el-input v-model="addForm.style" autocomplete="off" placeholder="请输入车型"/>
         </el-form-item>
         <el-form-item label="年款" prop="yearModel">
           <el-select v-model="addForm.yearModel" placeholder="请选择年款">
@@ -80,7 +80,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="指导价（万元）" prop="guidedPrice">
-          <el-input v-model="addForm.guidedPrice" autocomplete="off"/>
+          <el-input v-model="addForm.guidedPrice" autocomplete="off" placeholder="请输入指导价（万元）"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -113,14 +113,14 @@
           </el-select>
         </el-form-item>
         <el-form-item label="车型">
-          <el-input v-model="editForm.style" autocomplete="off"/>
+          <el-input v-model="editForm.style" autocomplete="off" placeholder="请输入车型"/>
         </el-form-item>
         <el-form-item label="年款">
           <el-select v-model="editForm.yearModel" placeholder="请选择年款">
             <el-option v-for="item in yearData" :key="item" :label="item" :value="item"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="指导价（万元）">
+        <el-form-item label="指导价（万元）" placeholder="请输入指导价（万元）">
           <el-input v-model="editForm.guidedPrice" autocomplete="off"/>
         </el-form-item>
       </el-form>
