@@ -52,7 +52,7 @@
     <el-dialog :visible.sync="dialogFormVisible" title="新增车型" width="33%">
       <el-form ref="addForm" :model="addForm" :rules="rules" label-width="120px">
         <el-form-item label="品牌" prop="brandName">
-          <el-select v-model="addForm.brandName" placeholder="请选择品牌" @change="handleChange">
+          <el-select v-model="addForm.brandName" filterable  placeholder="请选择品牌" @change="handleChange">
             <el-option
               v-for="item in brandData"
               :key="item.carBrandId"
@@ -62,7 +62,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="车系" prop="seriesName">
-          <el-select v-model="addForm.seriesName" placeholder="请选择车系" @change="seriesChange">
+          <el-select v-model="addForm.seriesName" filterable placeholder="请选择车系" @change="seriesChange">
             <el-option
               v-for="item in seriesData"
               :key="item.carTrainId"
@@ -93,7 +93,7 @@
     <el-dialog :visible.sync="editFormVisible" title="编辑车型" width="33%">
       <el-form ref="editForm" :model="editForm" :rules="editrules" label-width="120px">
         <el-form-item label="品牌">
-          <el-select v-model="editForm.brandName" placeholder="请选择品牌" @change="handleChange">
+          <el-select v-model="editForm.brandName" filterable placeholder="请选择品牌" @change="edithandleChange">
             <el-option
               v-for="item in brandData"
               :key="item.carBrandId"
@@ -103,7 +103,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="车系">
-          <el-select v-model="editForm.seriesName" placeholder="请选择车系" @change="seriesChange">
+          <el-select v-model="editForm.seriesName" filterable placeholder="请选择车系" @change="seriesChange">
             <el-option
               v-for="item in seriesData"
               :key="item.carTrainId"
@@ -149,6 +149,7 @@ import {
 export default {
   data() {
     return {
+      brandNameFlag:0,
       yearData: [2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010],
       brandData: [],
       seriesData: [],
@@ -209,10 +210,10 @@ export default {
   watch: {
     "addForm.brandName": function(newValue, oldValue) {
       this.addForm.seriesName = null;
+    },
+    "brandNameFlag": function(newValue, oldValue) {
+      this.editForm.seriesName = null;
     }
-    // "editForm.brandName": function(newValue, oldValue) {
-    //   this.editForm.seriesName = null;
-    // }
   },
   created() {
     carTypeList(this.currentpage, this.pagesize)
@@ -227,11 +228,11 @@ export default {
         this.brandData = res.data.body.dataList;
       })
       .catch(error => {});
-    getSeries(1, 500)
-      .then(res => {
-        this.seriesData = res.data.body.dataList;
-      })
-      .catch(error => {});
+    // getSeries(1, 500)
+    //   .then(res => {
+    //     this.seriesData = res.data.body.dataList;
+    //   })
+    //   .catch(error => {});
   },
   methods: {
     stateFilter: function(val) {
@@ -411,6 +412,22 @@ export default {
     },
     // 品牌下拉框onchange
     handleChange(value) {
+      let obj = {};
+      obj = this.brandData.find(item => {
+        return item.carBrand === value; // 筛选出匹配数据
+      });
+      const carBrandId = obj.carBrandId;
+      this.addCarBrandId = carBrandId;
+      // 根据品牌获取车系
+      getSeries(1, 500, carBrandId)
+        .then(res => {
+          this.seriesData = res.data.body.dataList;
+        })
+        .catch(error => {});
+    },
+    //编辑弹框品牌下拉
+    edithandleChange(value) {
+      this.brandNameFlag++;
       let obj = {};
       obj = this.brandData.find(item => {
         return item.carBrand === value; // 筛选出匹配数据
