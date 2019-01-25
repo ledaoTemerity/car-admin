@@ -9,12 +9,20 @@
       </div>
       <div>
         <p class="txt">
-          <span>车商名称：{{ topCard.dealerName }}</span>
-          <span>所属机构：{{ topCard.carDealerOrgName }}</span>
+          <span>车商名称：
+            <b>{{ topCard.dealerName }}</b>
+          </span>
+          <span>所属机构：
+            <b>{{ topCard.carDealerOrgName }}</b>
+          </span>
         </p>
         <p class="txt">
-          <span>车商地址：{{ topCard.fullAddress }}</span>
-          <span>签约状态：{{ topCard.statusDesc }}</span>
+          <span>车商地址：
+            <b>{{ topCard.fullAddress }}</b>
+          </span>
+          <span>签约状态：
+            <b>{{ topCard.statusDesc }}</b>
+          </span>
         </p>
       </div>
     </el-card>
@@ -27,20 +35,20 @@
       </div>
       <div>
         <el-table :data="financialData" border style="width: 100%">
-          <el-table-column prop="styleName" label="车型" width="220"/>
-          <el-table-column prop="purposeDesc" label="购车用途"/>
-          <el-table-column prop="guidePrice" label="指导价" width="60"/>
-          <el-table-column prop="ticketPrice" label="开票价"  width="60"/>
-          <el-table-column prop="purchasePrice" label="采购价" width="60"/>
-          <el-table-column prop="downPaymentRatio" label="首付比例(%)"/>
-          <el-table-column prop="downPayment" label="首付金额"/>
-          <el-table-column prop="balancePayment" label="尾款" width="60"/>
+          <el-table-column prop="styleName" label="车型" width="100"/>
+          <el-table-column prop="purposeDesc" label="购车用途" width="80"/>
+          <el-table-column prop="guidePrice" label="指导价" />
+          <el-table-column prop="ticketPrice" label="开票价"/>
+          <el-table-column prop="purchasePrice" label="采购价"/>
+          <el-table-column prop="downPaymentRatio" label="首付比例(%)" width="88"/>
+          <el-table-column prop="downPayment" label="首付金额" />
+          <el-table-column prop="balancePayment" label="尾款" />
           <el-table-column prop="deposit" label="保证金"/>
-          <el-table-column prop="numberOfStages" label="期数" width="60"/>
-          <el-table-column prop="monthlyPayment" label="月供"/>
-          <el-table-column prop="totalPayment" label="付款总额"/>
-          <el-table-column prop="totalLoan" label="贷款总额"/>
-          <el-table-column label="操作" width="120">
+          <el-table-column prop="numberOfStages" label="期数" width="50"/>
+          <el-table-column prop="monthlyPayment" label="月供" width="80"/>
+          <el-table-column prop="totalPayment" label="付款总额" width="80"/>
+          <el-table-column prop="totalLoan" label="贷款总额" width="80"/>
+          <el-table-column label="操作" width="88">
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="financialEdit(scope.row)">编辑</el-button>
               <el-button type="text" size="small" @click="financialDel(scope.row)">删除</el-button>
@@ -96,18 +104,35 @@
           <el-input v-model="addfinancialForm.ticketPrice" autocomplete="off" placeholder="请输入开票价"/>
         </el-form-item>
         <el-form-item label="采购价" prop="purchasePrice">
-          <el-input v-model="addfinancialForm.purchasePrice" autocomplete="off" placeholder="请输入采购价"/>
+          <el-input
+            v-model="addfinancialForm.purchasePrice"
+            autocomplete="off"
+            placeholder="请输入采购价"
+          />
         </el-form-item>
         <el-form-item label="首付比例" prop="downPaymentRatio">
           <el-select v-model="addfinancialForm.downPaymentRatio" placeholder="请选择首付比例">
-            <el-option v-for="item in PaymentRatioData" :key="item.val" :label="item.des" :value="item.val"/>
+            <el-option
+              v-for="item in PaymentRatioData"
+              :key="item.val"
+              :label="item.des"
+              :value="item.val"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="首付金额" prop="downPayment">
-          <el-input v-model="addfinancialForm.downPayment" autocomplete="off" placeholder="请输入首付金额"/>
+          <el-input
+            v-model="addfinancialForm.downPayment"
+            autocomplete="off"
+            placeholder="请输入首付金额"
+          />
         </el-form-item>
         <el-form-item label="尾款" prop="balancePayment">
-          <el-input v-model="addfinancialForm.balancePayment" autocomplete="off" placeholder="请输入尾款"/>
+          <el-input
+            v-model="addfinancialForm.balancePayment"
+            autocomplete="off"
+            placeholder="请输入尾款"
+          />
         </el-form-item>
         <el-form-item label="保证金" prop="deposit">
           <el-input v-model="addfinancialForm.deposit" autocomplete="off" placeholder="请输入保证金"/>
@@ -118,10 +143,18 @@
           </el-select>
         </el-form-item>
         <el-form-item label="月供" prop="monthlyPayment">
-          <el-input v-model="addfinancialForm.monthlyPayment" autocomplete="off" placeholder="请输入月供"/>
+          <el-input
+            v-model="addfinancialForm.monthlyPayment"
+            autocomplete="off"
+            placeholder="请输入月供"
+          />
         </el-form-item>
         <el-form-item label="付款总额" prop="totalPayment">
-          <el-input v-model="addfinancialForm.totalPayment" autocomplete="off" placeholder="请输入付款总额"/>
+          <el-input
+            v-model="addfinancialForm.totalPayment"
+            autocomplete="off"
+            placeholder="请输入付款总额"
+          />
         </el-form-item>
         <el-form-item label="贷款总额" prop="totalLoan">
           <el-input v-model="addfinancialForm.totalLoan" autocomplete="off" placeholder="请输入贷款总额"/>
@@ -165,21 +198,42 @@
           <el-input v-model="editfinancialForm.guidePrice" autocomplete="off" placeholder="请输入指导价"/>
         </el-form-item>
         <el-form-item label="开票价" prop="ticketPrice">
-          <el-input v-model="editfinancialForm.ticketPrice" autocomplete="off" placeholder="请输入开票价"/>
+          <el-input
+            v-model="editfinancialForm.ticketPrice"
+            autocomplete="off"
+            placeholder="请输入开票价"
+          />
         </el-form-item>
         <el-form-item label="采购价" prop="purchasePrice">
-          <el-input v-model="editfinancialForm.purchasePrice" autocomplete="off" placeholder="请输入采购价"/>
+          <el-input
+            v-model="editfinancialForm.purchasePrice"
+            autocomplete="off"
+            placeholder="请输入采购价"
+          />
         </el-form-item>
         <el-form-item label="首付比例" prop="downPaymentRatio">
           <el-select v-model="editfinancialForm.downPaymentRatio" placeholder="请选择首付比例">
-            <el-option v-for="item in PaymentRatioData" :key="item.val" :label="item.des" :value="item.val"/>
+            <el-option
+              v-for="item in PaymentRatioData"
+              :key="item.val"
+              :label="item.des"
+              :value="item.val"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="首付金额" prop="downPayment">
-          <el-input v-model="editfinancialForm.downPayment" autocomplete="off" placeholder="请输入首付金额"/>
+          <el-input
+            v-model="editfinancialForm.downPayment"
+            autocomplete="off"
+            placeholder="请输入首付金额"
+          />
         </el-form-item>
         <el-form-item label="尾款" prop="balancePayment">
-          <el-input v-model="editfinancialForm.balancePayment" autocomplete="off" placeholder="请输入尾款"/>
+          <el-input
+            v-model="editfinancialForm.balancePayment"
+            autocomplete="off"
+            placeholder="请输入尾款"
+          />
         </el-form-item>
         <el-form-item label="保证金" prop="deposit">
           <el-input v-model="editfinancialForm.deposit" autocomplete="off" placeholder="请输入保证金"/>
@@ -190,10 +244,18 @@
           </el-select>
         </el-form-item>
         <el-form-item label="月供" prop="monthlyPayment">
-          <el-input v-model="editfinancialForm.monthlyPayment" autocomplete="off" placeholder="请输入月供"/>
+          <el-input
+            v-model="editfinancialForm.monthlyPayment"
+            autocomplete="off"
+            placeholder="请输入月供"
+          />
         </el-form-item>
         <el-form-item label="付款总额" prop="totalPayment">
-          <el-input v-model="editfinancialForm.totalPayment" autocomplete="off" placeholder="请输入付款总额"/>
+          <el-input
+            v-model="editfinancialForm.totalPayment"
+            autocomplete="off"
+            placeholder="请输入付款总额"
+          />
         </el-form-item>
         <el-form-item label="贷款总额" prop="totalLoan">
           <el-input v-model="editfinancialForm.totalLoan" autocomplete="off" placeholder="请输入贷款总额"/>
@@ -213,7 +275,8 @@
       </div>
       <div>
         <el-table :data="licenseData" border style="width: 100%">
-          <el-table-column prop="id" label="标号" width="220"/>
+          <el-table-column type="index" label="标号" width="50"></el-table-column>
+          <!-- <el-table-column prop="id" label="标号" width="220"/> -->
           <el-table-column prop="company" label="车辆挂靠单位"/>
           <el-table-column prop="state" label="状态" :formatter="stateFilter"/>
           <el-table-column label="操作" width="100">
@@ -295,7 +358,12 @@ export default {
         { id: 2, purpose: "家庭乘用" },
         { id: 3, purpose: "办公乘用" }
       ],
-      PaymentRatioData: [{"des":"5%","val":5}, {"des":"6%","val":6},{"des":"7%","val":7},{"des":"8%","val":8},],
+      PaymentRatioData: [
+        { des: "5%", val: 5 },
+        { des: "6%", val: 6 },
+        { des: "7%", val: 7 },
+        { des: "8%", val: 8 }
+      ],
       numberOfStagesData: [12, 24, 36, 48],
       addfinancialForm: {
         purpose: "",
@@ -478,9 +546,7 @@ export default {
           ticketPrice = ticketPrice.toFixed(2);
           let purchasePrice = Number(this.addfinancialForm.purchasePrice);
           purchasePrice = purchasePrice.toFixed(2);
-          let downPaymentRatio = Number(
-            this.addfinancialForm.downPaymentRatio
-          );
+          let downPaymentRatio = Number(this.addfinancialForm.downPaymentRatio);
           let downPayment = Number(this.addfinancialForm.downPayment);
           let balancePayment = Number(this.addfinancialForm.balancePayment);
           let deposit = Number(this.addfinancialForm.deposit);
@@ -648,11 +714,26 @@ export default {
 .txt span {
   display: inline-block;
   width: 500px;
-  color: #606266;
+  font-size: 14px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(74, 74, 74, 1);
+}
+.txt span b {
+  font-size: 14px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(111, 111, 111, 1);
 }
 .block {
   text-align: center;
   margin-top: 20px;
+}
+.el-card__header {
+  font-size: 14px;
+  font-family: PingFangSC-Semibold;
+  font-weight: 600;
+  color: rgba(74, 74, 74, 1);
 }
 </style>
 

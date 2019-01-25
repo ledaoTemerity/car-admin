@@ -17,7 +17,12 @@
       </el-form-item>
       <el-form-item label="所属分公司" prop="carDealerOrgId">
         <el-select v-model="topForm.carDealerOrgId" placeholder="请选择所属分公司">
-          <el-option v-for="item in orgData" :key="item.orgId" :label="item.fullName" :value="item.orgId"/>
+          <el-option
+            v-for="item in orgData"
+            :key="item.orgId"
+            :label="item.fullName"
+            :value="item.orgId"
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -42,7 +47,12 @@
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
           <el-button type="text" size="small" @click="goPage(scope.row)">查看</el-button>
-          <el-button type="text" size="small" @click="del(scope.row)">删除</el-button>
+          <!-- <el-button type="text" size="small" @click="del(scope.row)">删除</el-button> -->
+          <el-button
+            type="text"
+            size="small"
+            @click="handelstate(scope.row)"
+          >{{scope.row.state=="0" ? '启用' : '停用'}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -67,7 +77,12 @@
         </el-form-item>
         <el-form-item label="所属分公司" prop="carDealerOrgId">
           <el-select v-model="addForm.carDealerOrgId" placeholder="请选择所属分公司">
-            <el-option v-for="item in orgData" :key="item.orgId" :label="item.fullName" :value="item.orgId"/>
+            <el-option
+              v-for="item in orgData"
+              :key="item.orgId"
+              :label="item.fullName"
+              :value="item.orgId"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="签约状态" prop="status">
@@ -124,11 +139,21 @@
     <el-dialog :visible.sync="editFormVisible" title="新增车商" width="33%">
       <el-form ref="editForm" :model="editForm" :rules="rules" label-width="100px">
         <el-form-item label="车商名称" prop="dealerName">
-          <el-input v-model="editForm.dealerName" autocomplete="off" disabled="true" placeholder="请输入车商名称"/>
+          <el-input
+            v-model="editForm.dealerName"
+            autocomplete="off"
+            disabled
+            placeholder="请输入车商名称"
+          />
         </el-form-item>
         <el-form-item label="所属分公司" prop="carDealerOrgId">
           <el-select v-model="editForm.carDealerOrgId" placeholder="请选择所属分公司">
-            <el-option v-for="item in orgData" :key="item.orgId" :label="item.fullName" :value="item.orgId"/>
+            <el-option
+              v-for="item in orgData"
+              :key="item.orgId"
+              :label="item.fullName"
+              :value="item.orgId"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="签约状态" prop="status">
@@ -196,7 +221,8 @@ import {
   district,
   add,
   del,
-  edit
+  edit,
+  editState
 } from "@/api/carDealer";
 
 export default {
@@ -265,8 +291,8 @@ export default {
         address: ""
       },
       editRowData: [],
-      provinceIdFlag:1,
-      cityIdFlag:1,
+      provinceIdFlag: 1,
+      cityIdFlag: 1
     };
   },
   watch: {
@@ -276,19 +302,19 @@ export default {
     "addForm.cityId": function(newValue, oldValue) {
       this.addForm.districtId = null;
     },
-    "provinceIdFlag": function(newValue, oldValue) {
+    provinceIdFlag: function(newValue, oldValue) {
       this.editForm.cityId = null;
       this.editForm.districtId = null;
     },
-    "cityIdFlag": function(newValue, oldValue) {
+    cityIdFlag: function(newValue, oldValue) {
       this.editForm.districtId = null;
-    },
+    }
   },
   created() {
     // 获取列表数据
     carDealerList(this.currentpage, this.pagesize)
       .then(res => {
-        console.log(res.data.body.dataList[0])
+        console.log(res.data);
         this.tableData = res.data.body.dataList;
         this.currentpage = res.data.body.currentpage;
         this.totalItem = res.data.body.totalItem;
@@ -309,7 +335,7 @@ export default {
   },
   methods: {
     stateFilter: function(val) {
-      return val.state == "1" ? "正常" : val.state == "0" ? "弃用" : "未知";
+      return val.state == "1" ? "启用" : val.state == "0" ? "停用" : "未知";
     },
     // 清除查询条件
     clear(formName) {
@@ -325,7 +351,6 @@ export default {
         .then(res => {
           this.tableData = res.data.body.dataList;
           this.currentpage = res.data.body.currentpage;
-          console.log(res);
           this.totalItem = res.data.body.totalItem;
         })
         .catch(error => {});
@@ -343,7 +368,6 @@ export default {
         .then(res => {
           this.tableData = res.data.body.dataList;
           this.currentpage = res.data.body.currentpage;
-          console.log(res);
           this.totalItem = res.data.body.totalItem;
         })
         .catch(error => {});
@@ -381,13 +405,16 @@ export default {
             return item.areaId === this.addForm.cityId; // 筛选出匹配数据
           });
           cityName = obj2.areaName;
-          let obj3 = {};
+
           let districtName = "";
-          obj3 = this.districtData.find(item => {
-            return item.areaId === this.addForm.districtId; // 筛选出匹配数据
-          });
-          districtName = obj3.areaName;
-         
+          if (districtId !== null && districtId !== "") {
+            let obj3 = {};
+            obj3 = this.districtData.find(item => {
+              return item.areaId === this.addForm.districtId; // 筛选出匹配数据
+            });
+            districtName = obj3.areaName;
+          }
+
           add(
             dealerName,
             carDealerOrgId,
@@ -446,12 +473,37 @@ export default {
             })
             .catch(error => {});
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
+        .catch(() => {});
+    },
+    //编辑状态
+    handelstate(row) {
+      let id = String(row.id);
+      let state = 0;
+      if (row.state == 0) {
+        state = 1;
+      }
+      if (row.state == 1) {
+        state = 0;
+      }
+      this.$confirm("此操作将改变状态, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          editState(id, state)
+            .then(res => {
+              carDealerList(this.currentpage, this.pagesize)
+                .then(res => {
+                  this.tableData = res.data.body.dataList;
+                  this.currentpage = res.data.body.currentpage;
+                  this.totalItem = res.data.body.totalItem;
+                })
+                .catch(error => {});
+            })
+            .catch(error => {});
+        })
+        .catch(() => {});
     },
     // 编辑按钮
     edit(row) {
@@ -496,13 +548,22 @@ export default {
             return item.areaId === this.editForm.cityId; // 筛选出匹配数据
           });
           cityName = obj2.areaName;
+
           const districtId = this.editForm.districtId;
-          let obj3 = {};
           let districtName = "";
-          obj3 = this.districtData.find(item => {
-            return item.areaId === this.editForm.districtId; // 筛选出匹配数据
-          });
-          districtName = obj3.areaName;
+          if (districtId !== null && districtId !== "") {
+            let obj3 = {};
+            obj3 = this.districtData.find(item => {
+              return item.areaId === this.editForm.districtId; // 筛选出匹配数据
+            });
+            districtName = obj3.areaName;
+          }
+          // let obj3 = {};
+          // let districtName = "";
+          // obj3 = this.districtData.find(item => {
+          //   return item.areaId === this.editForm.districtId; // 筛选出匹配数据
+          // });
+          // districtName = obj3.areaName;
           const dealerName = this.editForm.dealerName;
           const status = this.editForm.status;
           const id = this.editRowData.id;

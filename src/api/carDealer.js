@@ -106,3 +106,14 @@ export function edit(address, carDealerOrgId, cityId, cityName, dealerName, deal
   })
 }
 
+//编辑状态
+export function editState(id, state) {
+  const data = {
+    id, state
+  }
+  return request({
+    url: '/ledao/strs/cardealer/update/state',
+    method: 'post',
+    data
+  })
+}
