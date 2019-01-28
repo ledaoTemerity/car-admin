@@ -25,9 +25,9 @@ export function getDetail(id) {
 // }
 
 // 查询车型列表
-export function getStyle(currentPage, pageSize) {
+export function getStyle(currentPage, pageSize,state) {
   const data = {
-    currentPage, pageSize
+    currentPage, pageSize,state
   }
   return request({
     url: '/ledao/strs/car/style/list',

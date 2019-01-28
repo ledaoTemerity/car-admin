@@ -458,7 +458,7 @@ export default {
         this.licenseData = res.data.body.licenseOrgList;
       })
       .catch(error => {});
-    getStyle(1, 1000)
+    getStyle(1, 1000,1)
       .then(res => {
         this.styleData = res.data.body.dataList;
       })
